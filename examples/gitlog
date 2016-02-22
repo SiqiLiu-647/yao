@@ -1,0 +1,1930 @@
+commit 9e60e85209fa7da8b8e2f14e9f13054abd84a6df
+Author: Siqi Liu <sqliu.astro@gmail.com>
+Date:   Mon Feb 22 12:41:42 2016 -0500
+
+    Modified the sh12x12.par and tested it is working.
+
+commit 806948394ad7cf08fbaa562aa1c146f5ccbfbc3d
+Author: Siqi Liu <sqliu.astro@gmail.com>
+Date:   Sun Feb 21 21:54:26 2016 -0500
+
+    recovered the sh12x12.par file, to test whether this works or not.
+
+commit 8b5c9ddc4541b8322b5ca92c6a66a4fbd31f851b
+Author: Siqi Liu <sqliu.astro@gmail.com>
+Date:   Sun Feb 21 21:10:29 2016 -0500
+
+    added parameter file.
+
+commit 9eaec225a15d9a0cfe87c2fdaf2fb4c3d837d899
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Fri Sep 18 14:14:33 2015 +1200
+
+    Two changes:
+    1) ylapack not loaded automatically
+    2) can now set wfs.framedelay, so each WFS can have its own loop delay.
+    This is backward compatible, so any files with loop.framedelay will be honoured.
+
+commit b0d8fa717e3d50346404fb5813d086e4f6f6aadf
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Aug 26 11:15:21 2015 +1000
+
+    Implemented "fly by" mode for targets, useful for SSA stuff.
+    use target.xspeed and yspeed
+
+commit e4b4dd51557b6a7799823b0d2992bfa010b87da4
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Aug 25 09:45:34 2015 +1000
+
+    added anti aliasing spatial filter in zwfs. See man,zwfs.
+
+commit b3bc5df1bcd8faa9e8b2415499324ce334ea15d4
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Aug 25 09:21:38 2015 +1000
+
+    - added comment in sh+zer parfile
+    - version number to 5.7.0
+
+commit 4c3ecbc8c2a5d015de726cd5d00bb32801f81f36
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Aug 25 09:18:08 2015 +1000
+
+    added zernike wfs (the actual one now, e.g.
+    http://exep.jpl.nasa.gov/lowfsc/agenda/Ndiaye_Mamadou.pdf )
+    wfs.type="zwfs" (which is also the name of the function).
+    This was implemented as a user sensor, i.e. I didn't put special
+    hooks in multwfs or other location, just use the user_wfs feature
+    that calls the routine of the same name as wfs.type
+    
+    Also added sh+zer.par which is an example parfile.
+
+commit 471cba78180cd7f9b12fe8461f9230bc88505d36
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Aug 24 14:46:35 2015 +1000
+
+    Updated version number to 5.6.0
+
+commit 3ba99dfedc44c5942da1618ec0014818bd156157
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Aug 24 13:05:07 2015 +1000
+
+    implemented dmnotinpath, to provide the ability to have some DM not
+    in the path of some WFS. This allows putting systems in serie, to
+    e.g. bootstrap etc.
+
+commit ba015f3e218414e49b55585174dda4392d922336
+Merge: 455c565 2c169a5
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Jun 30 09:42:33 2015 +1000
+
+    Merge branch 'master' of github.com:frigaut/yao
+    pulling from github
+
+commit 455c56526ba86cabc19e5f3a457c8f5f78508f51
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Jun 30 09:39:08 2015 +1000
+
+    prevent going through time consuming LGS kernel computation in case we
+    are using a NGS. Useful for ELT + NGS
+
+commit 2c169a5548d74dae80a28209b1b0cbf4d0eedf09
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Apr 22 00:19:28 2015 +1000
+
+    Change to avoid re-creating window each time we go through a aoinit or
+    aoloop. At long last.
+
+commit 57eb607770572c40ec04d708b18d4e3de4bfb0fc
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Mon Jan 26 12:59:44 2015 +1300
+
+    Modified it so that the warning message about the control numerator and denominator are not printed every iteration if sim.verbose =1
+
+commit 036d73e68ca8b9a6d43bfe593be609461dbafe34
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Tue Jan 6 10:53:41 2015 +1300
+
+    Fixed small bug in aoutil introduced in the last commit
+
+commit afd70e045b09d5bb6f5b40ecb78e3cb62b992e95
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Tue Jan 6 09:21:25 2015 +1300
+
+    Changed the matrix inversion function so that it does not crash with other routines that use LUsolve without the second argument (e.g., spydr)
+
+commit cde410760aea4e56040df56c5e588087f7f38175
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Mon Dec 1 08:53:36 2014 +1300
+
+    Provides warning when
+    wfs.type == hartmann and wfs.shmethod=1 and wfs.noise=1
+    In this case, the measurement noise is given by wfs.ron
+    
+    This is a recent feature which could catch out some users.
+
+commit 8aef0feafbc72d9f06b05422fd8d56b6115784a3
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Mon Nov 24 12:59:26 2014 +1300
+
+    Changed loop.skipevery so that it stays at 0 if not set
+
+commit 07625c0167215f6ea87e9b830b6ab8467e2f359c
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Thu Nov 13 13:05:31 2014 +1300
+
+    Fixed bug when optics on the non-common path are specified for some but not all WFSs or some but not all science targets.
+
+commit 8f1a5104557be6e8c62374e9eab002e0430c244a
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Mon Nov 3 09:26:19 2014 +1300
+
+    Added the ability to specify actuator locations for a stackarray DM using actlocfile.
+
+commit 38cc2ba51b11d5c3b592429ce1fbd779239d4ab0
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 29 10:07:39 2014 +1100
+
+    Trial to patch the dynamic library linking under osx. Have put (back)
+    the relevant code in utils.c, protected by a ifdef __APPLE__
+
+commit 538dee9ff267ba99c7130c8976cd28ba3e487d9c
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 14 13:30:04 2014 +1100
+
+    - fixed behaviour in which yao would go through all wfs for
+    interaction matrix measurement, irrespective of subsystem definition.
+    This was adding overhead unnecessarily.
+
+commit a56a899347bc37bfbcc89a7e83924ea1fda111fa
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Fri Oct 10 15:02:28 2014 +1300
+
+    Change to avoid divide by zero when a WFS is insensitive to tip-tilt
+
+commit 3035026fcedb808601997f11899584dbea16dfa4
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 26 16:08:09 2014 +1000
+
+    Fixed dm.xscale. Wasn't really broken but structure comment wasn't
+    there and coordinates weren't adjusted accordingly.
+    Cleaned some end of line blanks
+
+commit 102dc5eb31184f2b4ecd0a63e02ac1f71b09da8b
+Merge: 4508445 5200e8e
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 26 15:18:15 2014 +1000
+
+    Merge branch 'master' of github.com:frigaut/yao
+    
+    Conflicts:
+    	yao_wfs.i
+
+commit 45084454a257662c2aeb24f0885de237363d7aef
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 26 15:15:39 2014 +1000
+
+    Minor changes, just a sync:
+    - correction of psf plot label
+    - included comments about how to make a keck pupil
+    - some reformating in yao_wfs.i, no change.
+
+commit 5200e8ea07335b753a26b09a8b5588061c68a500
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Wed Jun 18 10:15:32 2014 +1200
+
+    Updated documentation
+
+commit 5aa525f7309bd5ceb35e2f463b4055bd4b4cec35
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Wed Jun 18 09:58:06 2014 +1200
+
+    Added a safeguard against wfs.excessnoise set to less than 1.
+
+commit 82ac30c125fca0065b47b04bf4d9cc189a8121e3
+Author: Marcos van Dam <marcos@flatwavefronts.com>
+Date:   Tue Jun 17 16:51:59 2014 +1200
+
+    Prevent the excess noise factor from being set to be less than 1.
+
+commit 5680fafd78ee0fc2347f9927257d7fb8363044d5
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Tue Jun 17 15:30:34 2014 +1200
+
+    Included noise excess factor to better model EM CCDs.
+    The noise excess factor is included in the Shack Hartmann, curvature and pyramid WFSs.
+
+commit 6f5f24544d3ab82d64c22cf90c79cee4596b3b5a
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Fri Jun 6 10:23:54 2014 +1200
+
+    Added 3 decimal places to pixel size (1 is not enough for ELTs!)
+    Improved the formatting
+
+commit 1761b8f94f7d14521365739419fd81352aae9e5a
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 5 20:30:57 2014 +1000
+
+    - upgraded to version 5.4.0
+
+commit 3e988db0d2e25110e2495da48a68c5f692ec5a4e
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 5 20:26:52 2014 +1000
+
+    - BUG FIX: extfield was badly screwed up. Fixed it. There is also
+    now a test-extfield.i test file, based on a sh6x6 with various extfield
+    test cases.
+    - BUG FIX: the display of the SHWFS spot pattern with the subapertures
+    and area of interest, field stop, was also bad. It should now work.
+    That's only when sim.debug>=1
+    - BUG FIX: Again, bug related to extfield and rayleigh fixed (_nx4fft)
+    - BUG FIX: a rare occurence bug could crash yao when command not defined
+    when resetting. Fixed.
+    - FEATURE: added flag wfs_disp_crop_edges, if set, enlarged edges due to
+    extfield and spotpitch combination won't be displayed, providing a more
+    natural look of the SHWFS spot image.
+    - FEATURE: Now by default, yao doesn't optimize the array size for FFTW
+      in shwfs_init(). To restore this feature, set optimize_nx=1
+    - LLTlaserM2 was not implemented but did not give an error message when
+    used. Gotten rid of this structure member. Instead, use wfs.kernel.
+    - CHANGE: now displays the WFS pixels (in display) with bytscl, so
+      e.g. tip-tilt on a quadcell will not appear so confusing/moving than
+      before.
+    - ADDED the files:
+      * flags.txt: description of all the feature-control flags that are not
+        structure members
+      * test0.par: same as test.par, but with extfield
+      * test-shwfs.i: call shwfs_test() with correct parameters. Just call
+        it with yorick -i test-shwfs.i in examples/
+      * test-extfield.i: test battery of extfield, check validity of results.
+        Just call it with yorick -i test-extfield.i in examples/
+      * test-all_v*: old version results of running test-all.i, catching up.
+
+commit d57814a1ef1e736193573f6180a4582e2e08f6a7
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Fri May 30 17:10:12 2014 +1200
+
+    Made it so that it will automatically use the ylapack library if it exists.
+    I will use this to do matrix multiplications later.
+    Using it to do the Cmat * slopes multiplication is probably not worth it since this is not slow.
+
+commit ba060183935c9c7d5b5ae2b00da1ced4b2460778
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu May 29 15:36:26 2014 +1000
+
+    BUGFIX: when using no_reinit_wfs (in particular, this is the default when
+    using the GUI), the wfs kernels do not get re-computed, and thus may
+    be left with the imat kernel. Here, we force the re-init of the
+    kernel in aoloop(), even if no_reinit_wfs is set.
+
+commit 9c2e93e6a66ba92427dd75f6098ebfe3d9e5a803
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu May 29 10:28:18 2014 +1000
+
+    - Added feature: can now filter out Rayleigh-affected subapertures right from
+    the start, i.e. within shwfs_init. The validsub are set to 0 if the subap
+    is to be filtered, which means they will not even be in the imat.
+    This is controlled through the use of the parameter "filter_rayleigh_sub".
+    Set this parameter to a value between 0 and 1. A subaperture i with
+    rayleigh_flux(i) / max(rayleigh_flux) above filter_rayleigh_sub will be
+    filtered out. Useful for GeMS simulations
+
+commit 91f082f41cdadc9541b543946a750549d096459d
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu May 29 10:16:39 2014 +1000
+
+    - FIXED sqrt() bug in SHWFS image calculcations (in yao_fast.c) when
+    using kernels.
+    - changed yao call script to avoid double call to rlwrap.
+    This should already be in the yorick call script/command/alias.
+    - changed FFTW opt mode to FFTW_MEASURE and made sure it was used !
+
+commit 7dcf051ea202ca75ee80be72304cc0a7bc6b5608
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu May 29 10:02:26 2014 +1000
+
+    - cleaned up sim.verbose statements and logic
+    - added user_go_ok function within go()
+    - fixed an small issue with wfs display images when nintegcycles is > 1.
+    This just affects the display.
+
+commit 60c4cf8affcea47e0ba08909e0980676f72e3d3c
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Thu May 22 16:21:45 2014 +1200
+
+    Made changes to that the loop gain (and other loop parameters) get checked at every iteration.
+    This does not affect the speed.
+
+commit cec4f253bb7840a8fbd1009e18259dfcfa8c69a9
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Wed Feb 26 15:47:18 2014 +1300
+
+    Fixed so that it works if ygsl is not installed. Provides installation instructions. Will not renormalize if ygsl is not installed.
+
+commit 776a3f6093eb3834a517c81d8fea1e01746a233c
+Merge: 196221d 0944057
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Feb 10 11:58:19 2014 +1100
+
+    Merge branch 'master' of github.com:frigaut/yao
+
+commit 196221d961cf475d6116d37b2f532d4599ee59d5
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Feb 10 11:57:08 2014 +1100
+
+    - cleaned up psd(), now the same as in spydr
+    - added user mask for SVD eigenvalues (ev_user_mask)
+    - influence function rotation now correctly rotates actuator
+      coordinates too.
+    - Added option to feed external imat to inversion process (use_user_imat
+      and user_imat). Set use_user_imat=1 and put imat to use in variable
+      user_imat
+
+commit 0944057b5d57f629d76280194d2568540ce392c9
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Fri Jan 24 12:21:09 2014 +1300
+
+    Fixed bug with pyramid sensor. If a variable such as the field stop size (fssize) was modified, the sinc averaging was not recomputed and YAO crashed.
+
+commit 5bb2c65065ef8c0254e5d28aca85e422f12cfaed
+Merge: 7447527 b9b0858
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 18 12:13:25 2013 +1100
+
+    merging git hub master
+    Merge branch 'master' of github.com:frigaut/yao
+
+commit 7447527ea83f1adf53b64e6c3058f34137f79de5
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 18 12:08:11 2013 +1100
+
+    - added xscale functionality for influence functions
+
+commit b9b0858d260743fd7a083a4962a5363f3f42bf9d
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Thu Aug 15 14:14:35 2013 -0400
+
+    Changes to the control law. Can now have a different control law for each DM including up to 10 denominator and numerator coefficients.
+
+commit 0c4f271e9b5f3be16a5a69c47d6650f1a507d5d4
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Aug 12 15:15:09 2013 +1000
+
+    - updated copyright dates
+    - bumped to version 5.3.0
+
+commit 416e84a9d60db74019189737b48b3c01739556d9
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Aug 12 14:36:04 2013 +1000
+
+    A few other changes merged:
+    NEW FEATURES:
+    - dm._flat_command can be set to point to a dm command vector that will
+      be subtracted from the command before they are applied to the
+      dm (in comp_dm_shape())
+    - dm.ifunrot is the rotation angle of influence functions. Does not
+      work when dm.elt=1
+    - set go_quiet=1 to suppress performance printouts in go()
+    - exact ordering of WFS can be modified using wfs._reordervec (ptr) to
+      better match real world systems
+    
+    BUG FIXES:
+    - check_parameters() now obeys sim.verbose settings
+    - typo in extern for wfsMesHistory in reset()
+    - python env now called explicitely as python2
+    - fixed typo in cub definition when yflip=1 in make_pzt_dm() functions
+
+commit ad5a90fa7e4baf5dbe9975498da38184af091dc5
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Aug 8 16:28:48 2013 +1000
+
+    Bunch of syncs:
+    - no reinit wfs in gui
+    - bug fixed in opt.path (no -> w(no))
+    - introduced opt.scale parameter
+    - a few more user functions hooks:
+      * aoinit_user_func
+      * aoloop_user_func
+      * go_user_func
+      * user_end_go
+    - add_dm0_shape functionality
+    - residual_phase_zcontent added to saving (savephase), see also plot_rps and rp_rms bool.
+    - Possibility to add user content to GUI (see code, user#.py, user#.glade, user#.i)
+    - added sync_opt()
+    - that's it. It was some work to merge my long out-of-sync changes into the master version, upgraded significantly by marcos in the past month
+
+commit d2db5d77b7ddd1678e7c2812ecbeb1bb8848e497
+Author: Marcos <marcos@flatwavefronts.com>
+Date:   Mon Jun 24 08:43:01 2013 -0400
+
+    Fixed a few small bugs with FFTW wisdom. I don't understand whether or how this is used, but there were some bugs in implementation.
+
+commit abcfeda5bf864ffd467fb008d8475e310a5ea392
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Tue Apr 16 21:27:02 2013 -0400
+
+    Include new implementation for DM hysteresis
+
+commit 19e282d70f2b0ce0a532d23294d5acbc57483ec7
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Tue Mar 26 14:25:05 2013 -0400
+
+    Changes sodium return with zenith angle.
+    The dependency is as cos(gs.zenithangle)
+
+commit e623076a7e93e3294a073de6a8dbe47a1f29574b
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Mon Feb 4 10:40:29 2013 +1300
+
+    Also reports the wavelength for the RMS values.
+    This is useful for GLAO simulations, where I want to do a grep for the results and want to know what wavelength each result corresponds to.
+
+commit 3e018273e0b9d4f00b1a089c648409791a10ff12
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Fri Feb 1 16:22:11 2013 +1300
+
+    Changed real=0 to real=1, as the circle that is used to integrate the image over should be hard, not have a soft edge.
+
+commit 4733382604daa4ba8005bfb093ccce82e0731e6a
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Dec 20 11:54:57 2012 +1100
+
+    Fixed test7 and test8 for new noise changes with shmethod=1
+
+commit b576eae6a22d29b666ea3d93e1162e43b6f25fbb
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Dec 20 11:31:43 2012 +1100
+
+    fixed iter_per_sec not defined bug.
+    This broke the test-all routines.
+
+commit 2746ba168566c6e87e3bc11060fbd70840c844a5
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Dec 20 12:55:19 2012 +1300
+
+    Bug fix for nintegcyles > 1 if shmethod = 1 (it was not previously implemented)
+    New feature to include noise if shmethod = 1. wfs.noise needs to be set to 1 and the noise in arcsec is set via wfs.ron.
+
+commit 329b4e0675da7ab00669315d7327dfea8e53faa6
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 19 16:09:55 2012 +1100
+
+    Bumped to v5.2.0
+
+commit 037af8389153ade1955c66f722ac61f06fdd5a67
+Merge: dd33640 db37db2
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 19 16:07:11 2012 +1100
+
+    Merge branch 'master' of github.com:frigaut/yao
+    
+    Conflicts:
+    	yao.i
+
+commit dd336403478235334cc6a67a98dc21fbc6b02fd1
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 19 15:53:11 2012 +1100
+
+    Provide a mechanism to not pass pscreens in shared memory for svipc use.
+    This caused some still-unresolved slow down in execution time. I
+    suspect some conflict in accessing the shared memory between the
+    (sometime) many threads. To be backward compatible, the default is
+    still to pass pscreens through shared memory, but I provide a way to
+    just replicate them in each threads (through natural behaviour of fork()).
+    This can be done by setting the variable pscreens_no_shm.
+    Two consequences if this is selected:
+    - pscreens can not be changed on the fly, in particular, I'm not sure
+    what happened in case of a swap.
+    - the amount of RAM used is significantly larger, as pscreens are
+    replicated across all threads.
+    That said, it seems to fix the slow down problem. But the later mostly
+    occured when dealing with big phase screens, so might not affect many users,
+    thus I retain the old behaviour as default.
+
+commit bc582fb83cf8fa639581499060601b349b862041
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 19 14:52:17 2012 +1100
+
+    - Now also reports on iter/seconds in progress printout
+    - Beautify lgs profile fit plots and printouts.
+
+commit cb8edbfafc175c7a9dd4c554c0cc0fb66e230136
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Dec 19 09:47:44 2012 +1100
+
+    slight change in test7.par
+
+commit 66e93961bf0505fb3c06eb654f7b1caebf0a3185
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Dec 18 12:33:05 2012 +1100
+
+    - moved subsystem defition from CheckParameters() to structure instanciation
+    - added preliminary support for the blas/lapack librairies (just for the regular svd cmat matrix multiply)
+
+commit db37db23445d77e51c23c077797fcc3d945d36bc
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Fri Nov 30 15:40:42 2012 +1300
+
+    Can now make a bilinear DM by setting dm.type to stackarray and dm.coupling=0.
+    Works for both dm.elt = 0 and dm.elt = 1.
+
+commit 33db01bf67f9e3cbb37cb63aa377adc3c3bc3453
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Wed Oct 31 11:32:01 2012 +1300
+
+    Modified notation in the tomographich fitting and the non-common path DMs for consistency.
+
+commit e696c1a96bdff5c583cba6364553c8135c2b337a
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Oct 25 17:14:41 2012 +1100
+
+    Initial import of past test-all log files
+
+commit f2f369707cdc0f03f0f37c01e6937566c1b70d2f
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Oct 25 16:29:04 2012 +1100
+
+    Static Optics sorted out:
+    - there can be several opt structures
+    - optics can be applied common path (default) or wfs or science
+    - ... on some elements (e.g. wfs) only or all (default)
+    - added opt.path and opt.pathwhich structure elements
+    - what is displayed on the residual phase plot can now be selected
+    (residual_phase_what ("wfs" or "target") and residual_phase_which (number
+    of wfs or target)
+    - fixed a bug with LLT uplink turbulence in case several wfs and
+    duplicate LLTs
+
+commit 3b8ae766224bab8aa1b04731570bbbf1ee4924d4
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 16:36:49 2012 +1100
+
+    Removed print out about normalization of phase screens
+    No need to worry the users.
+
+commit feab53835416b04a30c35519e452463e498db175
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 16:15:56 2012 +1100
+
+    fix to be able to define use_sincos_approx in yao.conf
+
+commit 407c2afbc28c912214c6fd74645643ed999c33e9
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 15:41:46 2012 +1100
+
+    5.1 was already tagged, had to use 5.1.1
+
+commit 1e44cc7f4122045e1c6aff3ae3fe67893d97442a
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 15:40:13 2012 +1100
+
+    - Bumped to v5.1
+
+commit 35c24f40a63fe2704625feb617f8a7e38f08d08c
+Merge: 96f960a f102213
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 15:38:26 2012 +1100
+
+    Merge branch 'master' of github.com:frigaut/yao
+    Manually merged shcalibseeing changes in yao_wfs.i
+
+commit 96f960a8efd9eebfd0a83517089c57f906fa7014
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 15:31:25 2012 +1100
+
+    Updated test7.par
+
+commit dd8d3a2ee5f2e1c8f78564f26ce04cd7a228e886
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 24 15:31:04 2012 +1100
+
+    LLT uplink seeing, APPLE sincof patch, calc_psf_fast not power of 2
+    - added a number of wfs structure parameters related to LLT
+    - added related checks in check_parameters()
+    - merged patch from Stefan Hipler regarding non-existence of sincosf in macosx
+    - modified _calc_psf_fast() to work with non-power of two (lower level calc_psf_fast() API unchanged)
+    - modified _shwfs_phase2spots() so that it accepts multi-plan kernels. API are changed, added _nkernels parameter
+    - more shwfs init functionalities transfered to their own init functions
+    - rayleigh now imposed OFF during imat measurements
+
+commit f102213c4cf5a183b57a34aaa20d6f0d5940b850
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Tue Oct 23 11:34:18 2012 +1300
+
+    Added a parameter that sets the calibration convolution FWHM as a function of seeing
+
+commit faad001b550e4b2b43d28e76aa404956f9d59fa3
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 19 15:15:19 2012 +1100
+
+    Removed fftw optim of float to complex
+    as it was causing trouble in some machines (e.g. Marcos)
+
+commit db62c9895587f5a4c2912719df53a112f64d2005
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 19 13:30:28 2012 +1100
+
+    fixed a bug in which use_sincos_approx was not restored properly
+    after doing the imat. It turns out the dark_current parameter
+    was not there in the store call, so it wasn't restored properly either.
+
+commit ad4179de1f1c7ab421360a3c6364c47009c73b10
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 19 13:18:13 2012 +1100
+
+    fixed issue with use_sincos_approx not being int.
+
+commit d2ccb2442982eb08d311df268587aa463be8df20
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 19 13:03:20 2012 +1100
+
+    v5.0.4: use_sincos_approx disabled by default
+    - force use_sincos_approx to 0 in any case for imat calibrations
+    - added notify calls (but disabled unless user has set use_notify
+      in his/her custom.i)
+
+commit 16099f02ac866afc2ec139bafa8f6d1321ee176c
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 19 09:48:10 2012 +1100
+
+    Tried fixing fftw init plan bug that Marcos reported.
+
+commit 5dce8243f135db6899c9edd7b96c5f0d7bd1e4ed
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Oct 18 11:01:49 2012 +1100
+
+    BUGFIX: fabsf instead of abs in sinecosine().
+    - Added use_sincos_approx()
+    - Bumped to v5.0.3
+    - Reverted a change: fimny in call to _shwfs_spots2slopes()
+
+commit 55343ac8febbd17742c1da984202bc0a53fb49da
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Oct 18 06:34:28 2012 +1100
+
+    wrong atm screen name for a test file. Replaced by "screen", which
+    is the only one that exists on a new install. (bug report Neil Zimmerman)
+
+commit 6211921adbab73a66755c823567576cc12777043
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 17 22:08:35 2012 +1100
+
+    - fixed a bad implementation to prevent the sinc from yeti to load.
+    - cleaned up comments
+
+commit 146c75b030b072c36c605c7155741333ff361cbd
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 17 21:50:37 2012 +1100
+
+    big whoops. had forgotten to include yao_lgs.i
+
+commit 6faa5d9ad6b09bb647c928599d3adc461352d9d6
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 17 21:48:46 2012 +1100
+
+    Got rid of power of 2 constraint in fftVE.
+    - changed the API to _fftVE. third parameter is now dimension, not
+    power of two such as 2^param = dimension. Can now compute FFT for
+    any dimension. This function is supposed to be hidden as the
+    exposed function is fftVE() which APIs have NOT changed.
+    - fftVE() is now also named fftw()
+    - bumped to 5.0.2
+
+commit 732ed4d9c07f578271bf3dc46edd24791f7f3eef
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 17 13:51:28 2012 +1100
+
+    - Bumped to v5.0.1
+
+commit 040f8794fd54cb65a7fbbf8df180243a5c58db2a
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 17 13:50:39 2012 +1100
+
+    Split of LGS kernels Initialisations
+    - added wfs._sdim
+    - Added yao_lgs.i to Makefile
+
+commit e8b0aaf6199d15cf03845cd7a08a1bc6e57801be
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 17 13:49:23 2012 +1100
+
+    Update of headers, GPL licence, formatting clean up in parfiles.
+    - Removed $Id$ and $Log$ in headers, updated copyright.
+    - Added a few more default parameters in structure instanciation
+
+commit 5ea5c2819d6b24b162f28d5bd245efcec163984c
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 16 17:09:58 2012 +1100
+
+    Formatting
+
+commit 3027fb1d43f7c95fbb0300cb05df9526cb1076b0
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 16 17:09:38 2012 +1100
+
+    Fixed display every N frame setting in glade/python/yorick interaction
+
+commit e775bd551bbc5e03dcf4980608f7ddf44575fd69
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 16 17:08:04 2012 +1100
+
+    Formatting
+
+commit a5bbb6c876d32b0f80c60d7f964d658b6d475993
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 16 15:30:07 2012 +1100
+
+    Fix for test.par push4imat. up from 2 to 50.
+
+commit 904f7a891823cf5e2faf4c5e9244d9ddb516cf40
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 16 12:36:06 2012 +1100
+
+    Version 5.0.0:
+    - Extensively tested version 4.10.99
+    - import/export from wisdom file
+    - statsokvec definition moved from aoinit to aoloop
+    - added push4ttref (in arcsec) that can be defined for all wfs in parfile
+    - fixed zero-day bug when loop.modalgainfile is not defined, that was
+      producing and error difficult to understand/trace
+    - added saving GxSP rco matrix in case allof(dm.fitvirtualdm==0) as it
+      is needed anyway and will trigger a re-compute of the cmat.
+    - cleaned up a bit yao.i to remove old comments and avoid long comments
+      lines
+    - fixed a bug introduce lately in which the simage was not embedded
+      at the correct location in ximage when wfs._nx != wfs._nx4fft.
+      _shwfs_phase2spots() API unchanged.
+    - added generic sync_wfs() function. Although this might be in fact
+      redondant with sync_wfs_forks()
+    - changed the optimization of FFT dimension from exec time test to
+      picking the first number for which the prime factors are all <= 7.
+      The timing method was flawed as to get best results, one should
+      optimize for all N values (or, less optimally, forget the optimization)
+    - added/documented shwfs_comp_lgs_defocuses() and slope_offset_defocus(),
+      convenience functions to set the lgs defocus and the slopes defocus
+      offsets
+    - added expand_path(), a fixed version of expand_file_name(), and
+      prime_factors()
+
+commit fcddaaa12eabe917c662bb14c58aeac1beff8528
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 16 12:13:33 2012 +1100
+
+    Minor formatting in test-all.i
+
+commit fbecd7a67cc83e5af857092c641c89a6bbe46496
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Oct 15 09:18:13 2012 +1100
+
+    Wrapup of new extended field method for sh_wfs()
+    - Add wfs._nx4fft, the upscaled dimension for the extended arrays in
+      _shwfs_phase2spots(). Upgraded the shwfs_init() code to determine
+      the best value and make use of it in kernel/mask/rayleigh inits.
+    - Fixed a bug in which the background was not subtracted ! (since when?)
+    - small fixes in shwfs test functions
+    - test-all.i now also write results in a file.
+    - bumped to v4.10.99
+
+commit b2fb64d061a0448a376c4d3426edb9dc9c88f615
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Sat Oct 13 23:57:31 2012 +1100
+
+    Added labels in sh_wfs_speed_tests() plots
+
+commit a3642e95f4569a1825010758953e63113e9a9f86
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Sat Oct 13 16:14:46 2012 +1100
+
+    Bug fix commit:
+    - kernelconv was not reset to correct value when using no_reinit_wfs
+      in aoloop, fixed.
+    - bumped to version 4.10.2
+    - added _init_fftw_plan function for any N
+    - optimize fftw_plan for wfs._nx by default
+    - added w/ and w/o kernel speed tests in sh_wfs_speed_tests()
+
+commit 8d73195c789d60346d53d78612295b415c81e2ea
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Sat Oct 13 13:38:29 2012 +1100
+
+    - fixed an issue in rayleigh
+    - upgraded sh_wfs_speed_test()
+
+commit a23cc3107226eff7720ab6a4b6611b974ef5006f
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 17:09:44 2012 +1100
+
+    Upgraded test.par to use extfield when possible
+
+commit 8d4ea15ed32593ea9515c5e09000ae3d060b3e80
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 17:09:07 2012 +1100
+
+    Added version parsing (yao_major|minor_version)
+    Upgraded shwfs_tests()
+
+commit f050a9a7324e700a9ff7ca0302121d7d88ae36b4
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 16:19:15 2012 +1100
+
+    - reverted one change that induced an error when using shmethod=1
+    - propagated _shwfs_phase2spots() API changes to svipc calls.
+
+commit b78bd30bdfee5cd43ca9c3c71b02bdd3d37db651
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 16:17:36 2012 +1100
+
+    initial import. included ashfast-bench in standard test suite as test8.par
+
+commit f7492be808bde7676b7dc90a9aeb9eadb3f91ecd
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 16:05:57 2012 +1100
+
+    - added no_pad_simage=1 to test7.par
+
+commit 0ee4247c7da01825cbb7a1e90f760c38e56876a9
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 15:35:51 2012 +1100
+
+    initial import, parfile testing extended feature
+
+commit 3814c77afc6963dae629586c780328e72abc0bfe
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 14:52:51 2012 +1100
+
+    Initial import, drawing with new shwfs geometry definition
+
+commit 47f898d8caf20377bca437e10d17e853d73208f5
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 14:51:54 2012 +1100
+
+    Test routine upgrade:
+    - for all files, do both with and without displays
+    - up somewhat the push4imat in test.par
+
+commit 56fc3d9a0c55c4de419a3617e95867fa5ab9bf96
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Oct 12 14:50:32 2012 +1100
+
+    Bunch of changes to switch to a better version of the extended field
+    method: now we put the result of the FFT for each "object" into a
+    larger array, shifting them of necessary, before doing the convolution
+    by the kernel(s), and then binning down. This allow proper treatment
+    of the field stops and flux normalisation. It's fast too, although not
+    much faster than the previous implementation.
+    - bumped to 4.10.0
+    - using wfs._nx to dimension arrays for yao_fast (kernel, mask, etc)
+    - the roll is now done within _shwfs_phase2spots(), so suppressed a
+      number of roll() calls ot prep arrays in yao_wfs.i
+    - lots of changes in _shwfs_phase2spots(), including API changes
+      (npb -> _nx). also added debug options, including writing out images
+      on disk.
+    - added spotpitch in agreement with new shwfs definitions (optional)
+    - compatible with older parfiles. test parfiles run good.
+    - had to move around sections within shwfs_init(), as kernel and mask
+      definition now depend on the pixel size and extended field of view
+      (_npixels and _nx). Probably need to clean up a little.
+
+commit c5248d746749659eeadef826407aaceadeb1d1ab
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 10 10:15:18 2012 +1100
+
+    version 4.9.5. Further fixes in the new extended field shwfs. It mostly
+    works, with the exception of the field stop and flux normalization issues.
+    yao.i:
+    - bumped to version 4.9.5
+    - fixed a condition when copying mircube to mirrorcube
+    yao_fast.c:
+    - added timing of critical steps in _shwfs_phase2spots()
+    - fixed include of time.h
+    - changed to use of cos and sin approximations
+    - fixed scaling when adding unit_defocus. This was all screwed up (also in yao_wfs.i)
+    yao_setnsync.i:
+    - fixed name of spawned forks when synchronizing in yao_setnsync.i
+    - added set_lgs_profile() function
+    yao_svipc.i:
+    - propagated _shwfs_phase2spots() API changes to yao_svipc.i
+
+commit 5a847762221fe2874947546274b7bdebdd59131c
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 10 10:05:47 2012 +1100
+
+    clean up tabs for spaces
+
+commit 44e2a5ba54807be5656e56765e9f7e408962afc9
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 3 00:08:54 2012 +1000
+
+    - bumped to version 4.9.4
+
+commit c60df9193cc23653466eb8a6823a74d580fa799b
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Oct 3 00:08:16 2012 +1000
+
+    - skip copying mircube if no ncp dm
+    - hum... solved a zero day bug in using require instead of include
+      when including the parfile. weird it wasn't noticed before.
+    - added checks on lgs_prof_amp and alt in check_parameters()
+    - restored correct value of unitdefocus after careful calibrations
+      of the lgs separation versus profile length.
+    - now one can have both gsdepth *and* lgs_prof_amp. This is to add a
+      smoothing element if needed to compensate for a coarse sampling in
+      altitude in lgs_prof_alt
+    - fixed a bug in which wfs._npb was off by a factor of 2.
+    - fixed a zero day bug in which changing wfs.pixsize after an initial
+      run would not change the desired pixel size (was set by _origpixsize)
+    - Adapted print out of wfs_check_pixel_size() to add new extended field
+    - Added a computation of best wfs.lgs_focus_alt given a profile to avoid
+      having to do it manually
+    - added sh_wfs_speed_tests() function
+
+commit 689d7cf50fbd412ff662ce3693fbf7480d40af0f
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Oct 1 13:23:32 2012 +1000
+
+    - implemented a new fast method for dm shape computation. turns out
+    it's no so fast after all, so I left it there but did not advertise
+    it too much. use dmsum_use_new=1 to enable
+    - fixed the dispzoom: setting wfs.dispzoom=0 will not display nor
+    include this wfs in the display zoom calculations (now works)
+    - extended field of view: replaced npb by wfs.extfield, which is
+    now the extended field of view desired, in arcsec. Now on a wfs per
+    wfs basis.
+    - fixed the error in setting the progressbar to value > 100%
+
+commit abc2cc619955fab9b073f653c67924ed8e68d248
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 28 17:20:36 2012 +1000
+
+    - added wfs.lgs_focus_alt to set position of LGS WFS zoom optics
+    - added function shwfs_comp_lgs_defocuses(ns)
+    - if dispzoom=0, then wfs image is not displayed at all nor enter in the
+    limits calculations.
+    - dispzoom=1 by default, set in structure init in aoread()
+
+commit cf8490fa363896ed4f1eccc49d837ffcb355985c
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Sep 27 23:08:03 2012 +1000
+
+    implementation of dynamical range enlargement + lgs profile with small
+    individual WFS field of view. has a lot of rough edges still.
+
+commit 5acbf3e005a7224942046fa1f42fc8e739c1cd7f
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Sep 26 14:04:53 2012 +1000
+
+    in the process of working out the imistart indices
+
+commit f78fa7788b7348cbfc7ff355d29c7d9aed471e23
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Sep 20 16:47:00 2012 +1000
+
+    Do not pad small phaselet in fast shwfs C routine. The net effect
+    is to be undersampled by a factor of 2 but might be ok if we are
+    resampling anyway by a large factor. Tests show that it does not
+    save an significant fraction of computation time (about 20-30%),
+    so it might not be worth using this option. There are other complications,
+    for instance it reduces the possibilities in final pixel size, as we
+    start by a quantum pixel size which is twice what it is when phaselet
+    is padded. To exercise this option, set no_pad_simage to 1.
+
+commit 59c7f17064ca4ba2a7a2d7a263ce38dad28cbc47
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Sep 20 15:13:43 2012 +1000
+
+    Relatively big commit, mostly to save time and RAM for ELT systems:
+    - added dm.use_def_of to replicate dm defs from one dm to another (e.g.
+    when using disjointpup)
+    - now use shared memory version of pscreens between parent and child (reduces
+     RAM foorprint)
+    - added no_reinit_wfs parameter to aoloop (time saving)
+    - if no_ee is set, don't compute encircled_energy in after_loop() (time
+    saving)
+
+commit 99e34a4bf6fce61890bcea7a2923aa4abfbd1f01
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Sep 20 15:07:54 2012 +1000
+
+    Progress bar clean up when creating DMs
+
+commit 51c14aa1d8eff8708d41a49bf658322776fc47e2
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Sep 20 15:07:00 2012 +1000
+
+    - make sure limits,square=1 for 2 upper displays
+
+commit bd4a40a601d685e4a6e6f70c1f4db230509f62c0
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Sep 19 11:14:40 2012 +1000
+
+    - prevent updating progressbar too often
+    - first proof of concept of an external yao process to do the displays
+    - added yao_disp.i (also in Makefile)
+
+commit f052afea63da9f4a19f9f8bb2577a1784efa448e
+Merge: a6a274e 08ffdce
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Sep 18 17:00:24 2012 +1000
+
+    Merge branch 'master' of github.com:frigaut/yao
+
+commit a6a274e3fdb26c5d3afb3798d5f7610daabfe6cb
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Sep 18 16:55:53 2012 +1000
+
+    oops. widgets init caused call to set_dr0 which is not defined. fixed.
+
+commit fd254962f24f05fb584ec92d66a9c2cdce2ecfe3
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Sep 18 14:13:28 2012 +1000
+
+    - fix bug in svipc to properly sync children for set_noise, set_dr0
+    - update some function names to new syntax
+    - un-assign svipc_procname for parent
+    - changing dr0 from GUI now sync with children too
+
+commit 08ffdced7762e7f61efd5560843754c1166e0122
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Tue Sep 18 14:51:31 2012 +1200
+
+    Fixed bug: the dark current was being included in the interaction matrix generation.
+
+commit e8c1a16cb6da9ebe83786524711afd2fdeda9c3b
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Sep 17 14:41:03 2012 +1000
+
+    darkcurrent changes: was broken (commented out in yao_fast.c).
+    - added comments in yao_fast.c
+    - fixed by adding properly scaled darkcurrent (wfs.darkcurrent
+    indeed in e-/s/pixel) in sh_wfs() before calling _shwfs_spots2slopes()
+
+commit f890a7dbff6c17eb11259c011678159d2ba9fbc3
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Mon Sep 17 13:02:07 2012 +1200
+
+    Minor bug fix so that regularization matrices get created when aoinit is not explicitly set to 1 but the reconstructor has not been previously computed.
+
+commit d4babce4541b91472d705c17be61fa55f96d12ee
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 14 16:30:36 2012 +1000
+
+    - fixes same random seed in children when wfs.svipc>1
+    - allow to rerun with the same random parameters for better comparison.
+    Just set (x between 0 and 1 exclusive):
+    random_seed,x ; ran1init;
+    before aoloop() or go()
+    It works with wfs.svipc>1 too.
+
+commit 2110416d4d065b92366246e10aa1559bc92ff973
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 14 15:32:11 2012 +1000
+
+    - fixes an issue with subtraction of background for nintegcycles>1
+    - I am now honoring the wfs._bckgrdsub set by the user. The default is
+    still to subtract (1), but this is set at the initialization of the
+    structure, so if the user change the value at any time, it will stick.
+
+commit 375162e073e1b321ee1e3c93788c53548b384fc1
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 14 14:04:55 2012 +1000
+
+    - don't set default_dpi if already set. This way it can be set in yao.conf
+    - bug fix in set_gs_mag() (bad indice name)
+
+commit db67eb54d6890734bdbfb6beebd216784c76bde8
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Sep 14 13:36:29 2012 +1000
+
+    - added silent keyword to create_phase_screens()
+    - make sure we don't send stuff to gui_progressbar if gui is not up
+    - remove print_struct() from aoutil, this doesn't work and conflict with my other print_struct()
+
+commit a0b163813b59130d4cd281f8ba33bff6081789b3
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Sep 10 16:10:02 2012 +1000
+
+    new makefile
+
+commit a110764cf53d0bc17c43a1d02f5ad336886a84a5
+Merge: 97398d7 6e512b3
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Sep 10 16:04:44 2012 +1000
+
+    merged from github
+    Merge branch 'master' of github.com:frigaut/yao
+
+commit 97398d7f6514b83908ac4a0d72a26179edf7f398
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Sep 10 16:01:15 2012 +1000
+
+    spelling corrections and one more debug message
+
+commit 6e512b3dae6a875a7b4f63e27b17fe006cb811de
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Sep 6 10:32:08 2012 +1200
+
+    Small bug fixes:
+    
+    Avoid the possibility of an incorrect loop method being used
+    Do not have any background when generating the interaction matrix
+    Removed commented lines
+
+commit e53a4ff303d24967a38f1fd9ca74fb759cd05004
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Mon Aug 13 09:40:47 2012 +1200
+
+    Two different denominators for the pyramid sensor
+    Minor bug fixes
+    Correct photometry (previously assumed a circular telescope with no central obscuration)
+
+commit 51a138d59379d634e5ef5a9ab46ce161f63b3a16
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri May 4 17:10:40 2012 +1000
+
+    - BUGFIX: replace pyr_mod_location by wfs.pyr_mod_loc (wasn't link before)
+    - check if set and made "after" the default
+    - thanks Yann Clenet for reporting the bug
+
+commit 4a1bc2a6a9325cee62e1fc8fa791698b7e0d6bff
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri May 4 16:43:38 2012 +1000
+
+    - fixed bug which prevented mixing zernike wfs with different nzer
+
+commit 569b4d7cd2972d071f5ab12e51e02315f271d2e1
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri May 4 16:42:51 2012 +1000
+
+    - added comments
+    - cleanup formatting
+
+commit bac47df7b426949869dcdadf1be4f8df069ace12
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Mar 27 11:09:42 2012 +1100
+
+    - bugfix: nDMs not initialized in certain config.
+    - added pyr.par (high order pyramid)
+
+commit 3392cdabab3ba86b032adfbe3d27aff0d1024df6
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Mar 27 10:53:29 2012 +1100
+
+    patch to avoid SIGFPE on modern versions of linux (somehow exp of
+    too large a number triggers an FPE, which I guess makes sense, but it's
+    a new behaviour as far as I know).
+
+commit 0a95cd1158cce5407b81df50e31a4d27eec2ed21
+Merge: 47029af 17e02c7
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Mar 27 10:44:42 2012 +1100
+
+    Merge branch 'master' of https://github.com/mvandam/yao into mvandam-master
+    
+    resolved conflicts.
+
+commit 47029af1cc77b5e1e0be63b5c259c11771a2d124
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Mar 27 10:26:12 2012 +1100
+
+    - commit to be able to merge marcos master
+
+commit 63512ccc9cae950a8f2bec68202259c72bc2c983
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Mar 27 10:24:29 2012 +1100
+
+    - trying to fix some issues with svipc
+    - some style changes
+
+commit 17e02c7c5f7f1804131f8d0a1e93069da611ce13
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Mar 22 10:21:00 2012 +1300
+
+    A number of changes and bug fixes
+    
+    Does not overwrite pixsize and npixels if shmethod = 1
+    Changes to the way that non common path DMs are implemented to allow MOAO on science object as well as WFS
+    Changes to LUsolve implementation for speed and also to allow use of lapack
+
+commit 267aae87fd5ce4f95ec593ab435fd1221638d336
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Wed Nov 2 08:55:21 2011 +1300
+
+    Increased default precision of pcgtol, the conjugate gradient parameter.
+    This is necessary for larger systems.
+    
+    Changed the turbulence generation file to scale turbulence correctly when there is an outer scale.
+    
+    A number of minor changes to yao.i
+
+commit 56d523945a06815f04b2c831a7f45b3319f8a0e2
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Fri Jun 24 14:48:27 2011 +1200
+
+    Phase screens can wrap in y as well as in x if they are square.
+    This implies that they are periodic in both directions.
+
+commit 15b7e2e46c6390aef98a067848c73354a9daac8a
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Wed Jun 22 17:04:02 2011 +1200
+
+    MOAO corrected tip-tilt stars
+    Windspeed at different zenith angles
+
+commit 1cee82a6deae9d3d16dc48868898a0fa869ce4c2
+Merge: 090e20f 7edcf94
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 2 08:13:11 2011 -0400
+
+    Merge branch 'master' of github.com:frigaut/yao
+
+commit 090e20f99e54496193e912f2bae440fff49d2d89
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 2 08:11:32 2011 -0400
+
+    hum... wfs(n)._bckgrdcalib was previously set from wfs._fimage, alegedly to "fix a bug we have since 4.7.1".
+    This was actually bad as _fimage included noise. reverted to not setting _bckgrdcalib from _fimage, it gets set in the C function as intended primarily. It seems to have not the correct behavior, including with svipc set.
+
+commit 89a1afbd22a395f407d18e656675d2dd64fba396
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 2 08:09:16 2011 -0400
+
+    - actual code part of pegged and epegged actuators
+    - added rayleigh_fudge (if set, rayleigh flux multiplied by fudge)
+    - some function calls from function form () to procedure form
+    -
+
+commit 9d8488df7478fa4754bbaf32da88465795cb3a60
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 2 08:07:13 2011 -0400
+
+    reformatting, commented unused variable lines
+
+commit 881abd904e9a427f21ffb932f8eb4f75171e7d12
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 2 08:06:30 2011 -0400
+
+    modified functional form for DM IF when dm.irexp=2 to match the ones we use in CANOPUS. added check we're using the correct sinc function
+
+commit e62f2c394330ca6a677753947959b616faf41344
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Jun 2 08:04:54 2011 -0400
+
+    implemented pegged and epegged actuators
+
+commit 7edcf942b57421652cd4d0e3dcb044dd030e1348
+Merge: 14340c8 90d2bad
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue May 3 21:13:01 2011 -0700
+
+    Merge pull request #3 from mvandam/master.
+    
+    Minor bug fixes
+
+commit 90d2bad3e12c207f667af35d4e63a30df80c235e
+Merge: 3254327 14340c8
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Wed May 4 13:37:55 2011 +1000
+
+    Marcos bug fixing
+    
+    Merge branch 'master' of git://github.com/frigaut/yao
+    
+    Conflicts:
+    	yao.i
+    	yao_structures.i
+
+commit 14340c8fa6492143801936ae9ae9381ca27cb32e
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Apr 7 10:12:40 2011 -0400
+
+    initial import
+
+commit 18f55657a795ee73b63d527add5a3ec5b2fed296
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Apr 7 10:09:42 2011 -0400
+
+    abs() the altitude to allow negative altitude DMs
+
+commit 62f524780297eccc7192f0639a97b0306ff3ae8d
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Mar 16 16:35:46 2011 -0300
+
+    - added test6.par, a full dh wfs & dm system
+
+commit d24868fda88fc25076fb6cb578388ea03d4a64a0
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Wed Mar 16 16:21:03 2011 -0300
+
+    - implemented DH WFS
+    - a few modif to DH DMs (changed type to "dh" and max_order -> ndh)
+    - added make_diskharmonic as an easy wrapper to dh creation
+    - added add_dm0_shape (will be added to DM0 in aoloop/go)
+    - added sim.pupilapod. set to 1 to get pupil = real/apodized pupil (used
+      in image calculations) or 0 to get current behavior (pupil = ipupil).
+      default is 0.
+
+commit 482fd1098fcd994aa2746f156bdc869518f21592
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Feb 17 11:21:30 2011 +0800
+
+    Changes to allow tomographic fitting in any direction plus other minor changes.
+
+commit 5111b797b131e1af8aea19469391317577d411de
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Feb 17 11:03:52 2011 +0800
+
+    Modified for tomographic fitting in arbitrary direction
+
+commit 3254327f1124d88195812113541ba3da88da11d5
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Feb 17 14:21:30 2011 +1100
+
+    Changes to allow tomographic fitting in any direction plus other minor changes.
+
+commit 48ee7f34af22b3c17aba1f41c87b107ec980d72e
+Author: Marcos <marcos@marcos-Precision-M4500.(none)>
+Date:   Thu Feb 17 14:03:52 2011 +1100
+
+    Modified for tomographic fitting in arbitrary direction
+
+commit fb5e7968d582e7ed8390255dd626253047d9a9c9
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Feb 15 16:08:58 2011 -0300
+
+    updated README with latest information
+
+commit f49ef53efc71a2b12681325342748d8e431a950b
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Feb 15 00:37:44 2011 -0300
+
+    - corrected permission on some html and png files
+
+commit d7fe3d8180d578d99c8fe8a8e71596f444fe0cf8
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Feb 14 23:39:08 2011 -0300
+
+    - bumped version to 4.8.3 in files, tagged this version
+
+commit 8ba052f7787e1fbfaf77ba5c1c6faf170265ae88
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Feb 14 01:11:04 2011 -0300
+
+    - move all calls to fitsread and fitswrite to new
+        yao_fitsread and yao_fitswrite
+    - changed graphic style to display residual phase
+    - implemented forks over WFSs (sim.svipc)
+    - some changes to be compatible with xft
+    - changes to test sim.svipc
+    - fine tuning some of the parfiles
+    - initial import of glao.par and test3.par
+    - updated news
+    - updated last version changes in README
+
+commit 8df043130b48a72645c9b44440b7635456795561
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Dec 7 04:29:59 2010 +0000
+
+    version 4.8.1, 2010dec06:
+    - changed layout of graphic window to add residual phase
+    - display of residual phase (Marcos)
+    - nintegcycle in pyramid wfs (Marcos)
+    - "extended" object in pyramid wfs (Marcos)
+    - a couple of bugfix (Marcos and I)
+    - aosimul3.gs -> yao.gs
+
+commit f5d22154d2e11a004bccadf9e348a5625f79a445
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Nov 11 18:14:41 2010 +0000
+
+    version 4.8.0:
+    
+    - XFT related:
+      - increased size of axis labels fonts on plsys(4)
+    
+    - newfits:
+      - fixed error handling. Now error in place, instead of calling error handl
+        function (exitInError). Allows much clearer debugging.
+    
+    - Pyramid:
+      - merged pyramid_wfs() changes from marcos, upgraded my francois
+      - changes in yao main routines to make re-introduced obsolete "pyramid" wf
+      - upgraded GUI to include pyramid modulation amplitude control
+      - added 4 new structure members to wfs structure
+      - added pyramid_wfs_checks(nchecks) routine
+    
+    - MISC:
+      - added "--dpi ##" command line call option (for GUI call). Example:
+        yao --dpi 75 sh6x6.par
+      - added default animate() to iMat acquisition display.
+      - cleanup of yao.py (dictionary autoconnect) + dpi stuff
+      - shortened get_style() calls to viewport() call
+      - gotten rid of get_processor_number() (use nprocs() function in svipc)
+      - added a bunch of extern wfs, dm, ... in functions called by python to se
+        values of parameters (how could it have worked before is a mystery).
+      - updated doc to 4.8.0
+    
+    - BUG FIXES:
+      - fixed a bug in which the graphic would get stuck (animate call was done
+      without ensuring a plsys,1)
+
+commit 521d6340cfd2b6b27f35ac82d543ddb770abf958
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 12 20:50:21 2010 +0000
+
+    version 4.7.3, 2010 oct12:
+    - merged SH threshold methods #2 and #3, patches from Yann Clenet
+      Credits for original idea of method #3 (compute centroid on N
+      brightest pixels instead of using a flux threshold) go to E.Gendron.
+    - added some safety for the choice of shthreshold when using shmethod=3
+      to avoid getting segfaults in yao_fast.
+
+commit d54858f92a8e3220e1022ba83d566d0ae75c1936
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 12 20:02:13 2010 +0000
+
+    - bumped to version 4.7.2 in files
+    - cleaned up the else syntax to be compatible with
+      FR syntax (MVD merged used a different syntax).
+    - retagged 4.7.2
+
+commit ff51155c5a6fc4a6bade292ef6c037924939db75
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Tue Oct 12 15:06:31 2010 +0000
+
+    version 4.7.2, 2010 oct12:
+    - added smooth animate=1 for iMat recording/display
+    - added ETA when taking iMat
+    - added option to findfwhm() to save RAM requirements (help,findfwhm)
+    - merged patch from Marcos van Dam:
+      * implemented virtual DMs for tomography
+      * implemented save of residual phase in go() (help,go)
+
+commit 27c66c9bdf34068a4c79be992c462b4d4bc050a5
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Thu Sep 16 21:09:40 2010 +0000
+
+    version 4.7.1, 2010sep16:
+    - fixed nasty bug that was not switching noise off for background calib (SHW
+      Thanks Yann Clenet for noticing and pointing me to the right direction
+    - make screen now can drop the imaginary part (no_ipart=1) to produce larger
+      screens by saving some RAM.
+    - updated to 4.7.1
+
+commit 604c0869e59018cc42bc45f4a5c4ae8f6ee71c0b
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Sat Aug 14 21:38:41 2010 +0000
+
+    - Merged a bunch of changes from Marcos van Dam. From his changelog:
+    1. There is a new version of soy.i. I found more bugs and since it had to be
+    2. filtertilt set to 0 for interaction matrix generation. I need this to gen
+    3. filtertilt for zernike and stackarray DMs. I need to filter tilt from DMs
+    4. WFS measurements set to 0 if not from same subsystem as DM.
+    5. minimum zernike (to exclude piston/tip/tilt if desired). I need this feat
+    6. I remove the reporting of the number of corrected modes... do we really n
+    7. pupil (real = 0). We discussed this earlier.
+    8. Introduced virtual DMs needed for tomographic reconstruction
+    9. mmse and mmse-sparse works fine with MCAO
+    10. Have loop.method set to closed-loop, open-loop and pseudo open-loop. Ope
+    11. Tomographic reconstruction!
+    
+    - fixed broken create_yao_window() because of undefined dpi
+
+commit 665b902ee3d919c240ac886cf5323aa8ddf27c57
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Fri Aug 13 16:01:18 2010 +0000
+
+    - initial import of besseljprimezeros200.fits
+    - changed code to read besseljprimezeros200.fits from Y_SITE/data
+    - changed Makefile to install besseljprimezeros200.fits in Y_SITE/data
+    - changed besseljprimezeros200.h5 in besseljprimezeros200.fits to
+      suppress hdf5 dependency
+    - fixed unknown dpi bug in create_yao_window()
+    - bumped to 4.6.2
+
+commit aab76f0573842ff7929930dce702f1076160e93d
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Jul 19 19:55:47 2010 +0000
+
+    - bugfix: window dpi when using svipc
+    - bugfix: window reparenting in python GUI when using svipc
+    - bumped to 4.6.1
+
+commit 33966fc4e9695679283962bbfbed8b025e4cf45c
+Author: Francois Rigaut <frigaut@gmail.com>
+Date:   Mon Jul 19 18:52:08 2010 +0000
+
+    - swicthed from cvs (yorick sf.net repos) to svn (yao sf.net repos)
+    - updated documentation and webpages
+    - added extreme examples and probably mmse from marcos at this time
+
+commit feb2dc3c05f1fb6d004e326bb8e04ffa7bf98a3a
+Author: frigaut <frigaut>
+Date:   Sun Jul 4 01:29:27 2010 +0000
+
+    - fixed a bug in sh_wfs that bugged in presence of several wfss (sh)
+
+commit f161781945cdc775b9657b2e12df8e829ade2670
+Author: frigaut <frigaut>
+Date:   Sat Jul 3 00:38:57 2010 +0000
+
+    updated version number in index.html
+
+commit 0cbe9b63c8935ee7a35a07199bb2ce4e94fbc691
+Author: frigaut <frigaut>
+Date:   Fri Jul 2 21:26:51 2010 +0000
+
+    - merged Aurea Garcia-Rissmann disk harmonic code
+    - implemented parallel extension (sim.svipc and wfs.svipc)
+    - a few bug fixes (and many more bug introduction with these major
+      parallel changes (!). Fortunately, the svipc=0 behavior should be unchanged.
+
+commit c295a55b5aaed66d6b6bac8ec655da94baf9bd79
+Author: frigaut <frigaut>
+Date:   Thu Jun 10 15:13:26 2010 +0000
+
+    - added minimum version numbers for dependency plugins
+
+commit 3940a0d1dd8af5ac53d67f93aa18a1796ced8d30
+Author: frigaut <frigaut>
+Date:   Wed Jun 9 18:27:28 2010 +0000
+
+    - added toy files to test new reconstructor methods
+    - modified test-all.i accordingly (use "yorick -i test-all.i toy")
+
+commit 169b300e58006c4b0b16591177e725e1925d77e7
+Author: frigaut <frigaut>
+Date:   Wed Jun 9 16:51:45 2010 +0000
+
+    aosimul.html is now linking to index.html
+
+commit b00f8979241cb092edc8129f55068ca66b46c902
+Author: frigaut <frigaut>
+Date:   Wed Jun 9 16:42:30 2010 +0000
+
+    - changed "least-squares" -> "mmse"
+    - changed "sparse" -> "mmse-sparse"
+    - updated documentation with input from Marcos Van Dam
+
+commit 5a3abe1e2373115e57e2051fe484e827c417a224
+Author: frigaut <frigaut>
+Date:   Wed Jun 9 15:03:42 2010 +0000
+
+    - Merged changes of Marcos Van Dam: This implements new reconstructors
+      methods "least-squares" (in fact a MMSE-like) and "sparse" (same but
+      using sparse matrices, very fast). This adds a dependency on soy.
+      There's now a few more elements in the dm and mat structures
+    
+    - added thback and cleaned up indentation in yao_fast.c
+
+commit a880df923a0bd8a8a3139e99508599228285926f
+Author: frigaut <frigaut>
+Date:   Thu Apr 15 18:11:24 2010 +0000
+
+    - strlower -> strcase
+
+commit ffef5cfa44488c3d6dd10d602419c4febf5db31c
+Author: frigaut <frigaut>
+Date:   Thu Apr 15 02:36:53 2010 +0000
+
+    final commit to upgrade this repo to yao 4.5.1
+
+commit 5e7382bbe449aea3286cebc3b0d574f5849ec972
+Author: frigaut <frigaut>
+Date:   Thu Apr 15 02:33:35 2010 +0000
+
+    upgrade to 4.5.1
+
+commit 0530ccc1f8b081d41540e5048d9263d633d598a4
+Author: frigaut <frigaut>
+Date:   Thu Apr 15 02:32:21 2010 +0000
+
+    part of clean up: upgrade of old repo to  4.5.1
+
+commit fb7034f64772f7b1813f44ed61dfb9ceb23a3caa
+Author: frigaut <frigaut>
+Date:   Thu Apr 15 02:29:32 2010 +0000
+
+    part of the update of this whole repo -> 4.5.1
+
+commit 27562a82b3aef56349e89a2e8a75a4d00c3d57a0
+Author: frigaut <frigaut>
+Date:   Thu Apr 15 02:15:22 2010 +0000
+
+    initial import
+
+commit aaa4ebf98332bc0277d092a9bf3fe70544ad85b7
+Author: frigaut <frigaut>
+Date:   Wed Mar 25 14:38:28 2009 +0000
+
+    - sync
+    - fixed a couple of bugs
+
+commit 23917b1368f12a167c3283fd03724825e39e1fcf
+Author: frigaut <frigaut>
+Date:   Wed Nov 19 00:53:19 2008 +0000
+
+    - fixed memory leak in yao_fast.c (thanks Damien for reporting that)
+    - fixed comments in newfits.i
+    - upped version to 4.2.6
+
+commit a4e41551e538cf0154cc02c01fe10061b0789ed2
+Author: frigaut <frigaut>
+Date:   Mon May 12 18:23:48 2008 +0000
+
+    version change
+
+commit 8f6fc54caf5ef654747ea3802cdb7edafa672d36
+Author: frigaut <frigaut>
+Date:   Mon May 12 18:00:53 2008 +0000
+
+    fixed problem with zernike diameter for altitude DMs.
+
+commit bdf9385a829920ee021779ed8d4de81395567e32
+Author: frigaut <frigaut>
+Date:   Mon May 12 17:59:35 2008 +0000
+
+    restored (fixed) round in yao_util.i
+
+commit 6fb2f8ee76f3e755e5c6c8569e572680de2d3b19
+Author: frigaut <frigaut>
+Date:   Sun May 11 14:03:56 2008 +0000
+
+    - implemented zernike wfs
+    - gotten rid of faulty round function in yao_util
+
+commit dd78df3d9ba75a8c87d9bd120c61e5ca5f5e07a4
+Author: frigaut <frigaut>
+Date:   Thu Jan 17 19:32:16 2008 +0000
+
+    - fixed critical bug on seeing entry in GUI
+    - changed seeing(V) -> seeing(550nm) in GUI
+
+commit 244e10a661630e7fa0850ba92d1071551d057a79
+Author: frigaut <frigaut>
+Date:   Thu Jan 17 17:48:56 2008 +0000
+
+    - changes for compat with gunziped doc/yao.1
+
+commit eb63848845fc5274b57b69ce6b27c62ec3107203
+Author: frigaut <frigaut>
+Date:   Thu Jan 17 17:45:03 2008 +0000
+
+    removed. now replaced by yao.1 (debian packager preference)
+
+commit 366f6077a2fac11abc7999210acd5d5af586ff72
+Author: frigaut <frigaut>
+Date:   Thu Jan 17 17:43:40 2008 +0000
+
+    yao.1.gz -> yao.1 for debian packaging.
+
+commit 96292007acecedc0d30646eb4cebf7f732798b68
+Author: frigaut <frigaut>
+Date:   Thu Jan 17 17:19:28 2008 +0000
+
+    - switched to sh (from bash)
+    - use || to allow rlwrap call (if not fallback to straight yao)
+
+commit 1dd5f3e2d86e329fc8648c3dfe2e2bac76b69b2e
+Author: frigaut <frigaut>
+Date:   Mon Jan 14 19:03:05 2008 +0000
+
+    fixed typo in #!
+
+commit 2ef2ba6e9f7c383b62df7bdd92983faee4bd0650
+Author: frigaut <frigaut>
+Date:   Wed Jan 2 13:54:53 2008 +0000
+
+    - correct size for the graphic inserts (no black border)
+    - updated spec files
+
+commit ca636fe6df64b1e68a8355ce51db785dbf474127
+Author: frigaut <frigaut>
+Date:   Thu Dec 27 09:43:43 2007 +0000
+
+    corrected gist path in Makefile
+    now install gist files in g and gist
+
+commit ab82221975bdbc55afdd76897e1dff64f34deae7
+Author: frigaut <frigaut>
+Date:   Thu Dec 27 09:06:28 2007 +0000
+
+    - bumped to version 4.2.3
+    - corrected problem with glade path (python does not like ~, so
+    replaced by expansion)
+
+commit 8cb5d84c2ac1acd966cedc984125904363c12652
+Author: frigaut <frigaut>
+Date:   Wed Dec 26 22:17:21 2007 +0000
+
+    corrected typo in test-all
+
+commit 1cf686d8ece0ccbad17e7df7423e129871997975
+Author: frigaut <frigaut>
+Date:   Wed Dec 26 19:29:19 2007 +0000
+
+    automatic determination of parfile directory in check.i
+
+commit 1fdbc036320bc2880504bbc386cd79ebaee7f20d
+Author: frigaut <frigaut>
+Date:   Wed Dec 26 18:54:40 2007 +0000
+
+    fixed minor bugs, mostly related to path and permissions
+
+commit 7cc6e8a1bad076208584e29f05ddcab71a3b393d
+Author: frigaut <frigaut>
+Date:   Fri Dec 21 20:48:47 2007 +0000
+
+    added get_env on Y_PYTHON, Y_GLADE, Y_CONF
+
+commit 1ac5fbeeec69f535bcd668aa53c77bd5b591767b
+Author: frigaut <frigaut>
+Date:   Thu Dec 20 15:18:25 2007 +0000
+
+    added yao_loop_example as an example of a script to investigate
+    performance over several parameters.
+
+commit 28e639ba99833ef51764165730ddca821c049e43
+Author: frigaut <frigaut>
+Date:   Thu Dec 20 14:09:07 2007 +0000
+
+    fixed bug in test-all.i
+
+commit eb5142979af0a09cc6ba646d7c03515f0a06a41b
+Author: frigaut <frigaut>
+Date:   Thu Dec 20 14:01:57 2007 +0000
+
+    - remove INSTALL_MISKA
+
+commit 3e791e59eb80583c5918abeb6cf4c8ec358d1e83
+Author: frigaut <frigaut>
+Date:   Thu Dec 20 13:35:55 2007 +0000
+
+    bumped to v4.2.2
+
+commit d236e983bb12000eb311eab5994772939dffb23a
+Author: frigaut <frigaut>
+Date:   Thu Dec 20 13:34:52 2007 +0000
+
+    - various bug fixes
+    - better handlng of default parfile path
+    - better handling of options menu (WFS and DM)
+
+commit a88db81471a91d9bcfb0fb92e9525226ae3cf7df
+Author: frigaut <frigaut>
+Date:   Wed Dec 19 20:00:08 2007 +0000
+
+    - statusbar updated to indicates where the results are saved when done
+    - bumped to 4.2.1
+
+commit 24f229e1e0cf86e145b08f4e569f15f7c848d916
+Author: frigaut <frigaut>
+Date:   Wed Dec 19 19:44:19 2007 +0000
+
+    - solved a number of bugs and inconsistencies between regular yao call and
+      GUI calls.
+    - fixed misregistration for curvature systems
+    - change: misregistration entry from the GUI is now in pupil diameter unit,
+      not in subaperture unit!
+    - changed default efd in c188-bench.par
+
+commit 10ee5fcb5479f0fabf5a04b8d92d88d883848b5c
+Author: frigaut <frigaut>
+Date:   Wed Dec 19 15:45:32 2007 +0000
+
+    - implemented yao.conf which defines the YAO_SAVEPATH directory where
+    all temporary files and result files will be saved
+    - modified yao.i and aoutil.i to save in YAO_SAVEPATH
+    - bumped version to 4.2.0
+    - slight changes to GUI (edit conf file)
+
+commit f50b0a432882528ca9feddb177c9db45deb4cfb1
+Author: frigaut <frigaut>
+Date:   Wed Dec 19 14:02:08 2007 +0000
+
+    - gotten rid of annoying compilation warning (clean)
+
+commit 258a0514380ca7c1598c68f01f6f35ea922bc898
+Author: frigaut <frigaut>
+Date:   Wed Dec 19 13:18:59 2007 +0000
+
+    - explicit message when screens are not present/found
+    - more messages in statusbar
+    - added statusbar1 (that can hide/show) for strehl status header
+
+commit 907af526391b5781031a4b9a3bf132aba010fa31
+Author: frigaut <frigaut>
+Date:   Wed Dec 19 13:16:56 2007 +0000
+
+    chnaged path for screens in parfiles
+
+commit 00186276a9d6f4ba79399594fe8bfce1cd394882
+Author: frigaut <frigaut>
+Date:   Tue Dec 18 19:03:20 2007 +0000
+
+    - reworked Y_PYTHON and search for yao.py
+    - added Y_GLADE and path to yao.glade
+    - now removes CVS directories in install of examples and doc
+
+commit 2b589d16781da535827783ca172f79bd511221cc
+Author: frigaut <frigaut>
+Date:   Mon Dec 17 20:28:34 2007 +0000
+
+    gotten rid of usleep dependency in spec files
+
+commit f6bd519ae74a30b2416c674eaad10f1625560a51
+Author: frigaut <frigaut>
+Date:   Mon Dec 17 20:21:04 2007 +0000
+
+    - renamed yaogtk -> yao (and updated Makefile accordingly)
+    - gotten rid of usleep() calls in yorick -> python communication. Instead,
+    am using a pyk_flush, which send a flush request to python every seconds.
+    This is still a hack to turn around the BLOCK bug in python, but at least
+    it does not use usleep (cleaner hack?).
+    - added debug python <> yorick entry in GUI help menu (set/unset pyk_debug)
+
+commit a638489121874ec28be14e6d6d4502d99d645b07
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 21:34:53 2007 +0000
+
+    added mkdirp Y_BINDIR in Makefile
+
+commit a23a7d499d97ebf67728f457adeec7650fa427dd
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 21:14:45 2007 +0000
+
+    modified install paths to be compatible with new (proposed) guidelines
+
+commit 63dcc68bf15cbcbf9c72bbed0d46e4753b10333e
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 16:06:58 2007 +0000
+
+    version bumped to 4.1.1
+
+commit ed8a1af7b1a019187349e2be1dd1326ccffecd47
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 16:04:21 2007 +0000
+
+    - modification to broken Makefile
+    - reshuffling of plug_in statement
+
+commit f13e2de963712cfebe1dde65cd63551d4eb6dc41
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 15:07:43 2007 +0000
+
+    Makefile: now also install doc, examples, and man page
+
+commit b568be3bc7fda6f21961df3493442e8858b2fc1d
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 15:06:19 2007 +0000
+
+    removed yao.1 as there is now a gz version
+
+commit a1c63b9a5814b7d86e499777c702e21696b818bd
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 15:05:34 2007 +0000
+
+    initial import
+
+commit 151e9018b3306122f513b622bdf96c6acd258df1
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 14:55:58 2007 +0000
+
+    Makefile: local install rule to install python, glade and yaogtk
+
+commit e20884b66d8fdbb75cade98e253c691d49ca8a79
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 12:50:45 2007 +0000
+
+    added several *.i in Makefile's PKG_I
+
+commit 82c75dbda0d7f20a85d9ed4c3c3b9dc162d1a551
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 12:49:16 2007 +0000
+
+    cleaned up doc:
+    - removed the acounter files by fear of licensing
+    - removed unused pages/
+    - removed unused digits*
+
+commit ecc0230f3cbae4a4b1b26b9232f54320ebe523dc
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 01:21:43 2007 +0000
+
+    cleaned up the .svn mess
+
+commit de8b0c9632b3ca804d63dc0840d2c9a0231edae0
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 01:11:46 2007 +0000
+
+    cleanup
+
+commit 70d9f3de0e3d6a1d9f087f9c67160830fab20bb3
+Author: frigaut <frigaut>
+Date:   Thu Dec 13 00:58:31 2007 +0000
+
+    added license and header
+
+commit e79db0c23ed51da2827658095e717e6c7aaad72a
+Author: frigaut <frigaut>
+Date:   Wed Dec 12 23:29:10 2007 +0000
+
+    Initial revision
