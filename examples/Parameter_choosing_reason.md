@@ -19,7 +19,7 @@ So te number of pixels per sub-aperture should be 86.7/12 = 7, if we use 130/12 
 so, we are using the pupildiam = 132, and the subnpixel = 132/12 = 11.
 
  2. satisfaction of the near-field and the far-field results.
-satisfaction of the near-field is following : wfs.shnxsub * wfs.npixpersub = sim.pupildiam.  11 * 12 = 132
+satisfaction of the near-field is following : wfs.shnxsub * wfs.npixpersub = sim.pupildiam.  12 * 11 = 132
 satisfaction of the far-field is following : wfs.npixels * wfs.pixsize = FOV. 2*1.2 = 2.4
 so the number of pixels in the sub-aperture * pixel size = 2.4 that is the field of view for the sub-aperture.
 
@@ -32,4 +32,4 @@ and from the simulation, we see that the residuals are less constrained on the e
 
 4. atm structure
 dr0at05mic = D/r0 = 6.5m/15cm =
- 
+

@@ -3880,3 +3880,194 @@ Mirror #1, stackarray, 45 actuators, conjugated @ 0 m
 Mirror #2, tiptilt, 2 actuators, conjugated @ 0 m
 WFS # 1, hartmann (meth. 2), 32 subap., offaxis (+0.0",+0.0"), noise enabled
 D/r0 (500nm) = 42.4; 5000 iterations
+=============================
+SH6x6 w/ TT mirror and WFS, full diffraction WFS
+ 
+Summary:
+Mirror #1, stackarray, 45 actuators, conjugated @ 0 m
+Mirror #2, tiptilt, 2 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 32 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 42.4; 5000 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       44.5   0.450      242.8
+Field Avg  1.65                     44.5   0.450      242.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh6x6-imav.fits
+Some other graphics in sh6x6.ps
+
+Original parameter file: sh6x6.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH6x6 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 120;
+ sim.debug          = 0;
+ sim.verbose        = 0;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 42.44;  // this is r0=0.166 at 550 nm
+ atm.screen	    = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	    = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	   = "hartmann";
+ wfs(n).lambda	   = 0.65;
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).shmethod	   = 2;
+ wfs(n).shnxsub	   = 6;
+ wfs(n).pixsize     = 0.2;
+ wfs(n).npixels     = 10;
+ wfs(n).noise       = 1;
+ wfs(n).ron         = 3.5;
+ wfs(n).shthreshold = 0.;
+ wfs(n).nintegcycles= 1;
+ 
+ //-------------------------------
+ ndm                = 2;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	   = "stackarray";
+ dm(n).iffile	   = "";
+ dm(n).nxact	   = 7;
+ dm(n).pitch	   = 20;
+ dm(n).alt          = 0.;
+ dm(n).unitpervolt   = 0.01;
+ dm(n).push4imat    = 100;
+ 
+ n  =2;
+ dm(n).type	   = "tiptilt";
+ dm(n).iffile	   = "";
+ dm(n).alt          = 0.;
+ dm(n).unitpervolt   = 0.0005;
+ dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	   = "";
+ 
+ //-------------------------------
+ tel.diam	   = 7.9;
+ tel.cobs	   = 0.1125;
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 1e11;
+ 
+ //-------------------------------
+ loop.gain	   = 0.6;
+ loop.framedelay    = 1;
+ loop.niter	   = 5000;
+ loop.ittime	   = 2e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH6x6 w/ TT mirror and WFS, full diffraction WFS",pupildiam=
+ 120,pupilapod=0,debug=0,verbose=0,svipc=0,svipc_wfs_nfork=0,svipc_wfs_forknb=
+ 0x0,shmkey=0,semkey=0,_size=256,_cent=128.5)
+ atm_struct(dr0at05mic=42.44,screen=0x7fee59873310,layerfrac=0x7fee59873288,
+ layerspeed=0x7fee59873398,layeralt=0x7fee598728f8,winddir=0x7fee59873200,
+ _layeralt=0x7fee598727e8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.5,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=5,
+ skymag=0,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=6,npixpersub=0,pixsize=0.190931,npixels=10,
+ spotpitch=10,extfield=1.90931,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=1.90931,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fee5916bdb8,lgs_prof_alt=
+ 0x7fee5916b800,nzer=0,ndh=0,ndhfiltered=0,_framedelay=1,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fee591fc620,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fee591fb9c0,_origpixsize=0.2,_rebinfactor=6,_gsalt=0,_gsdepth=0,
+ _nsub=32,_nsub4disp=36,_nmes=64,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x11e5d9030,_masks=0x0,_fluxpersub=0x7fee591fb8b8,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fee591fbac8,_skyfluxpersub=0x7fee591fbcd8,
+ _nphotons=70721.4,_skynphotons=0,_tt=[0.000724527,-0.000834329],_lastvalidtt=
+ [0.000724527,-0.000834329],_upttcommand=[0,0],_refmes=0x7fee58f029d0,_tiprefv=
+ 0x7fee58f06760,_tiltrefv=0x7fee58c56d70,_tiprefvn=0x7fee58f03fc0,_tiltrefvn=
+ 0x7fee58c5cb20,_reordervec=0x0,_npixels=10,_npb=0,_sdim=64,_nx=60,_nx4fft=60,
+ _istart=0x7fee591fbbd0,_jstart=0x7fee591fc410,_binindices=0x7fee598f9e30,
+ _binxy=10,_centroidw=0x7fee591541e8,_fimage=0x7fee59901630,_fimage2=0x0,
+ _imistart=0x7fee591fc200,_imjstart=0x7fee591fc830,_imistart2=0x7fee591fc518,
+ _imjstart2=0x7fee591fc0f8,_unittip=0x7fee59278030,_unittilt=0x7fee59278830,
+ _lgs_defocuses=0x7fee5916b8a8,_unitdefocus=0x10f11a030,_fimnx=60,_fimny=60,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fee59928e30,_flat=0x7fee5991e230,_domask=1,
+ _submask=0x7fee5991a830,_kernel=0x7fee59916e30,_kernels=0x10f3ac030,_kerfftr=
+ 0x10eccf030,_kerffti=0x1125dd030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fee59908830,_x=0x7fee58c57370,_y=0x7fee58c57630,_centroidgain=1,_rayleigh=
+ 0x7fee5914c3a0,_bckgrdcalib=0x7fee59921c30,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=1e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],_LLT_use=
+ 0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=0x0,
+ _LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fee5916bfb0)]
+ [dm_struct(type="stackarray",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh6x6-if1.fits",pitch=20,alt=0,hyst=0,push4imat=100,thresholdresp=0.3,
+ unitpervolt=0.01,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fee5914c0c8,_ctrlden=0x7fee5916bfe8,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=7,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh6x6-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=0,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=1e-05,
+ regtype=0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,
+ 0.35,0.45],_x0=0x7fee591fb5a0,_xlast=0x7fee591fbff0,_ylast=[0x7fee58c56fb0,
+ 0x7fee58c56fb0,0x7fee58c56fb0],_y0=0x7fee58c564a0,_signus=0x7fee58c50a70,
+ _puppixoffset=[0,0],_nact=45,_def=0x114227030,_x=0x7fee591fb498,_y=
+ 0x7fee591fbee8,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,_indval=0x7fee58f04200,
+ _indext=0x7fee59153748,_eiffile="sh6x6-if1-ext.fits",_edef=0x10eee9030,_ex=
+ 0x7fee5916c330,_ey=0x7fee5916c250,_enact=4,_n1=60,_n2=197,_pupil=0x0,_command=
+ 0x7fee591fb180,_flat_command=0x0,_extrapcmat=0x7fee598b8030,_eltdefsize=0,
+ _regmatrix=0x0,_fMat=0x0),dm_struct(type="tiptilt",subsystem=1,virtual=0,
+ dmfit_which=0x0,iffile="sh6x6-if2.fits",pitch=0,alt=0,hyst=0,push4imat=400,
+ thresholdresp=0.3,unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,
+ _ctrlnum=0x7fee5916b790,_ctrlden=0x7fee591429c0,misreg=[0,0],xflip=0,yflip=0,
+ pupoffset=[0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,
+ ncpfit_which=0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,
+ angleoffset=0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,
+ pitchMargin=0,coupling=0.2,ecmatfile="sh6x6-ecmat2.fits",noextrap=0,elt=0,
+ irexp=0,irfact=0,filtertilt=0,nzer=0,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,
+ regparam=0,regtype=0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],
+ _w=[0.2,0.35,0.45],_x0=0x7fee5916bd48,_xlast=0x7fee5914c218,_ylast=
+ [0x7fee59154408,0x7fee59154408,0x7fee59154408],_y0=0x7fee59154518,_signus=
+ 0x7fee5916c448,_puppixoffset=[0,0],_nact=2,_def=0x10f03a030,_x=0x0,_y=0x0,_i1=
+ 0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,_indval=0x0,_indext=0x0,_eiffile=
+ "sh6x6-if2-ext.fits",_edef=0x0,_ex=0x0,_ey=0x0,_enact=0,_n1=60,_n2=197,_pupil=
+ 0x0,_command=0x7fee5914c100,_flat_command=0x0,_extrapcmat=0x0,_eltdefsize=0,
+ _regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fee5916c2f8,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh6x6-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=7.9,cobs=0.1125,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fee5914c2f8,xposition=0x7fee5914c410,yposition=
+ 0x7fee5916bd80,xspeed=0x0,yspeed=0x0,dispzoom=0x7fee5916c480,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=1e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.6,leak=0,gainho=0x0,leakho=0x0,framedelay=1,niter=5000,
+ ittime=0.002,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
