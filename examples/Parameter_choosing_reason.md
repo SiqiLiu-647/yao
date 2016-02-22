@@ -30,3 +30,6 @@ and we already know the plate scale, which is 60 um/arcsec...72um/60um*arcsec = 
 we have 336 actuators, and the total number of sub-apertures are 12*12, the measurements we get is 144*2 = 288, so the informaiton from the wavefront sensor is less-constraint on the deformable mirror actuators, but from the zernike polynomial configurations, we can solve the problem of n_actuators < n_meausurements.
 and from the simulation, we see that the residuals are less constrained on the edge of the deformable mirror and the center because we have less constraints on these parts.
 
+4. atm structure
+dr0at05mic = D/r0 = 6.5m/15cm =
+ 

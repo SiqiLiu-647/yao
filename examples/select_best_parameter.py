@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pylab as plt
 import re
 
-with open('sh12x12.par','w+') as f:
+with open('sh12x12.par','r+') as f:
     lines = f.readlines()
 n = len(lines)
 
