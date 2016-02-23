@@ -20,16 +20,16 @@ wfs = array(wfss,nwfs);
 n   = 1;
 wfs(n).type	       = "hartmann";
 wfs(n).lambda	   = 0.65;
-//wfs(n).gspos       = [0.,0.];
-//wfs(n).gsalt       = 0.;
+wfs(n).gspos       = [0.,0.];
+wfs(n).gsalt       = 0.;
 wfs(n).gsmag       = 5.;
-wfs(n).shmethod	   = 2; //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
-wfs(n).shnxsub	   = 12; //# of subapertures in telescope diameter
+wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
 wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
-wfs(n).npixels     = 2; //Focal plane: Final # of pixels per subaperture
-wfs.npixpersub     = 11;
-wfs(n).noise       = 5;
-wfs(n).ron         = 3.5;
+wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+wfs(n).npixpersub     = 11;
+wfs(n).noise       = 1;//just whether this could be switched on or off
+wfs(n).ron         = 3.7;
 //wfs(n).fracIllum   = 0.75;
 //wfs(n).shthreshold = 0.;
 //wfs(n).nintegcycles= 1;
@@ -63,7 +63,7 @@ mat.file	       = "";
 
 //-------------------------------
 tel.diam	   = 6.5;
-tel.cobs	   = 0.1;// 64cm/6.5m = 0.1
+tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
 
 //-------------------------------
 target.lambda	   = &([1.65]);
