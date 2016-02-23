@@ -13649,3 +13649,14 @@ Original parameter file: sh12x12.par:
  loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=1,niter=5000,
  ittime=0.0001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
  jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    3513.1
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 5000 iterations

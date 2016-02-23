@@ -77,7 +77,7 @@ gs.zeropoint	   = 1e11;
 //-------------------------------
 loop.gain	       = 0.5;
 loop.framedelay    = 1;
-loop.niter	       = 5000;
+loop.niter	       = 500;
 loop.ittime	       = 1e-3;
 loop.startskip     = 10;
 loop.skipevery     = 10000;
