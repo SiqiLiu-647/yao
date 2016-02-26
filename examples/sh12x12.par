@@ -14,7 +14,7 @@ atm.layeralt	   = &([0.,400,6000,9000]);
 atm.winddir        = &([0,0,0,0]);
 
 //-------------------------------
-nwfs               = 1; // number of WFSs (>1 if e.g. mcao)
+nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
 wfs = array(wfss,nwfs);
 
 n   = 1;
@@ -27,8 +27,8 @@ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subapertu
 wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
 wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
 wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
-wfs(n).npixpersub     = 11;
-wfs(n).noise       = 1;//just whether this could be switched on or off
+wfs(n).npixpersub  = 11;
+wfs(n).noise       = 1; //whether the noise could be switched on or off
 wfs(n).ron         = 3.7;
 //wfs(n).fracIllum   = 0.75;
 //wfs(n).shthreshold = 0.;
@@ -72,7 +72,7 @@ target.yposition   = &([0]);
 target.dispzoom    = &([1.]);
 
 //-------------------------------
-gs.zeropoint	   = 1e11;
+gs.zeropoint	   = 1.65e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
 
 //-------------------------------
 loop.gain	       = 0.5;

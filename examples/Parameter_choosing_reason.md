@@ -33,3 +33,13 @@ and from the simulation, we see that the residuals are less constrained on the e
 4. atm structure
 dr0at05mic = D/r0 = 6.5m/15cm =
 
+
+5.  The exposure time is the iteration time 1.6 ms.
+ The frame delay is the exposure time + the readout delay = 1.6ms + 1.596 ms
+ If we take the exposure time as the unit, so the frame rate will be considered to be 1+ 1.596/1.6 = 2
+ Or the iteration time is 0.8 ms, because the previous iteration time is the maximum value, the frame delay could be 1+1.596/0.8 = 3.
+
+ 6. The noise,
+ the first one for the noise: whether to switch on or off.
+ the ron is for the read out noise, which could be obtained from the MMT paper. 
+

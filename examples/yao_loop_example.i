@@ -38,7 +38,7 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
       //plt,swrite(format="gsmag=%d",gsmagv(ll)),0.011,ymax-yspace*(ll-1), \
        // justify="LT",tosys=1,color=-ll-4;
     }
-    logxy,1,0;
+    logxy,0,0;
     xytitles,"Loop Gain",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
     window,0;
   }
