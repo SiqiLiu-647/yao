@@ -76,7 +76,7 @@ gs.zeropoint	   = 1.65e11;//calibrate Photometric zero point (#photons@pupil/s/f
 
 //-------------------------------
 loop.gain	       = 0.5;
-loop.framedelay    = 1;
+loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
 loop.niter	       = 500;
 loop.ittime	       = 1e-3;
 loop.startskip     = 10;

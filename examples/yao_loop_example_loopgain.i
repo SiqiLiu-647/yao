@@ -32,11 +32,6 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
       plg,strehlarray(ll,),gainv,color=-ll-4;
       limits, 0.0, 1.0;
       range, 0.0, 0.7;
-      //ylims=limits()(3:4); 
-      //ymax=ylims(2); 
-      //yspace=(ylims(2)-ylims(1))/15.;
-      //plt,swrite(format="gsmag=%d",gsmagv(ll)),0.011,ymax-yspace*(ll-1), \
-       // justify="LT",tosys=1,color=-ll-4;
     }
     logxy,0,0;
     xytitles,"Loop Gain",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
