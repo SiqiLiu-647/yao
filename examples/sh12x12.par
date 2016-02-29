@@ -19,10 +19,11 @@ wfs = array(wfss,nwfs);
 
 n   = 1;
 wfs(n).type	       = "hartmann";
-wfs(n).lambda	   = 0.65;
+wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
 wfs(n).gspos       = [0.,0.];
 wfs(n).gsalt       = 0.;
 wfs(n).gsmag       = 5.;
+wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
 wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
 wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
 wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
@@ -72,7 +73,7 @@ target.yposition   = &([0]);
 target.dispzoom    = &([1.]);
 
 //-------------------------------
-gs.zeropoint	   = 1.65e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
 
 //-------------------------------
 loop.gain	       = 0.5;

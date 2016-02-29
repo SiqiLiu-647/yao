@@ -43,3 +43,8 @@ dr0at05mic = D/r0 = 6.5m/15cm =
  the first one for the noise: whether to switch on or off.
  the ron is for the read out noise, which could be obtained from the MMT paper. 
 
+
+ #========================2016/02/29 group meeting with Suresh======================
+ 1. The overall goal is to reduce PSF and reduce pixels.(to reach higher strehl ratio)
+ 2. This week weekly plan will be shown in group wiki.
+
