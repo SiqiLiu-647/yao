@@ -8,7 +8,7 @@ window,4,wait=1;
 
 // read out parfile
 aoread,"sh12x12.par";
-atm.dr0at05mic = 35; // be more gentle
+// atm.dr0at05mic = 35; // be more gentle
 
 // define vector on which we want to loop and final strehl array
 gsmagv = [6.,9,14];//star magnitude vector, because we only want to analysis the situation where the strehl will be above the 0.1
@@ -27,14 +27,11 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
     strehlarray(ii,kk) = strehllp(0); // fill in result array
     window,4;
     fma;//First, if the current display list has changed, Yorick re-walks it, ensuring that your screen is up to date. Afterwards, fma clears the display list.
-    for (ll=1;ll<=ii;ll++) {
-        //x axis is the loop.gain
+    for (ll=1;ll<=ii;ll++) {  //x axis is the loop.gain
         //y axis is the strehl-ratio
-      plg,strehlarray(ll,),ittimev,color=-ll-4;// plots a graph of Y versus X.
+      plg,strehlarray(ll,),ittimev,color=-ll-4; // plots a graph of Y versus X.
       limits, 0.0005, 0.01;
-      range, 0.0, 0.7;//yaxis range
-      //plt,swrite(format="gsmag=%d",gsmagv(ll)),0.011,ymax-yspace*(kk-1), \
-        //justify="LT",tosys=1,color=-kk-4;
+      range, 0.0, 0.7; //yaxis range
     }
     logxy,1,0;
     xytitles,"Loop Ittime",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));

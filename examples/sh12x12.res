@@ -70226,3 +70226,4567 @@ Original parameter file: sh12x12.par:
  loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
  ittime=0.008,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
  jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    11435.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       60.9   0.356      206.1
+Field Avg  1.65                     60.9   0.356      206.1
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1bd0)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce30417a10,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305f0680,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x102b8f030,_masks=0x0,_fluxpersub=0x7fce305f1160,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce305f13b0,_skyfluxpersub=0x7fce305f1600,
+ _nphotons=11435,_skynphotons=0.281977,_tt=[-0.0123188,-0.00808128],
+ _lastvalidtt=[-0.0123188,-0.00808128],_upttcommand=[0,0],_refmes=
+ 0x7fce3102c430,_tiprefv=0x7fce31105830,_tiltrefv=0x7fce30933630,_tiprefvn=
+ 0x7fce31104430,_tiltrefvn=0x7fce30933e30,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce305ea8d0,_jstart=0x7fce305ee3f0,
+ _binindices=0x7fce310d5430,_binxy=2,_centroidw=0x7fce308b3b48,_fimage=
+ 0x7fce31104c30,_fimage2=0x0,_imistart=0x7fce305f0f10,_imjstart=0x7fce305f40e0,
+ _imistart2=0x7fce305f4330,_imjstart2=0x7fce305f4580,_unittip=0x7fce305f3eb0,
+ _unittilt=0x7fce305e01d0,_lgs_defocuses=0x7fce308b5248,_unitdefocus=
+ 0x101eba030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce31802030,
+ _flat=0x7fce3185f430,_domask=1,_submask=0x7fce310df430,_kernel=0x7fce310de630,
+ _kernels=0x102205030,_kerfftr=0x102007030,_kerffti=0x10206d030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce31106e30,_x=0x7fce310db430,_y=0x7fce31103a30,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce31803a30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bf388)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b5088,_ctrlden=0x7fce308b3d40,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304e6b60,_xlast=0x7fce304e6ce0,_ylast=[0x7fce308b1630,0x7fce308b1630,
+ 0x7fce308b1630],_y0=0x7fce308e5e30,_signus=0x7fce304e6e60,_puppixoffset=[0,0],
+ _nact=80,_def=0x108d11030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304b00a0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308b5168,yposition=
+ 0x7fce308befd0,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    22870.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       60.5   0.337      236.5
+Field Avg  1.65                     60.5   0.337      236.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c2340)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305de800,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce30618aa0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x103cf5030,_masks=0x0,_fluxpersub=0x7fce305f0680,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce305fbdb0,_skyfluxpersub=0x7fce305de5b0,
+ _nphotons=22870,_skynphotons=0.563955,_tt=[0.0118346,-0.0109896],_lastvalidtt=
+ [0.0118346,-0.0109896],_upttcommand=[0,0],_refmes=0x7fce30917630,_tiprefv=
+ 0x7fce30930430,_tiltrefv=0x7fce310da430,_tiprefvn=0x7fce30934630,_tiltrefvn=
+ 0x7fce310cd230,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce30618cf0,_jstart=0x7fce30618f40,_binindices=0x7fce32042a30,
+ _binxy=2,_centroidw=0x7fce308bf318,_fimage=0x7fce31803a30,_fimage2=0x0,
+ _imistart=0x7fce30619630,_imjstart=0x7fce30619880,_imistart2=0x7fce30619ad0,
+ _imjstart2=0x7fce30619d20,_unittip=0x7fce306168c0,_unittilt=0x7fce30618870,
+ _lgs_defocuses=0x7fce308b4050,_unitdefocus=0x10278c030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce310ce430,_flat=0x7fce310cc830,_domask=1,
+ _submask=0x7fce310c7e30,_kernel=0x7fce310d5430,_kernels=0x1023cc030,_kerfftr=
+ 0x102300030,_kerffti=0x102205030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce31804430,_x=0x7fce3203a230,_y=0x7fce32039a30,_centroidgain=1,_rayleigh=
+ 0x7fce308bdf60,_bckgrdcalib=0x7fce31105a30,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bdb38)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b40c0,_ctrlden=0x7fce308b3b48,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce306172e0,_xlast=0x7fce30615de0,_ylast=[0x7fce32014c30,0x7fce32014c30,
+ 0x7fce32014c30],_y0=0x7fce32022a30,_signus=0x7fce3060c930,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304bed40,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bef28,yposition=
+ 0x7fce308bde10,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.002,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    57174.9
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       61.4   0.263      368.2
+Field Avg  1.65                     61.4   0.263      368.2
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c25e8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305f2350,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305f1400,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1057e5030,_masks=0x0,_fluxpersub=0x7fce30712320,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30717a20,_skyfluxpersub=0x7fce30717c70,
+ _nphotons=57174.9,_skynphotons=1.40989,_tt=[0.00823318,0.004523],_lastvalidtt=
+ [0.00823318,0.004523],_upttcommand=[0,0],_refmes=0x7fce30937230,_tiprefv=
+ 0x7fce30938630,_tiltrefv=0x7fce3203fe30,_tiprefvn=0x7fce30930430,_tiltrefvn=
+ 0x7fce32040630,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce305f1650,_jstart=0x7fce305f18a0,_binindices=0x7fce3203cc30,
+ _binxy=2,_centroidw=0x7fce308bde80,_fimage=0x7fce310f3c30,_fimage2=0x0,
+ _imistart=0x7fce30616660,_imjstart=0x7fce3061fbb0,_imistart2=0x7fce3061fe00,
+ _imjstart2=0x7fce30620050,_unittip=0x7fce305f0680,_unittilt=0x7fce305f11d0,
+ _lgs_defocuses=0x7fce308b5210,_unitdefocus=0x1041f7030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce3185f430,_flat=0x7fce31802030,_domask=1,
+ _submask=0x7fce32045030,_kernel=0x7fce32044230,_kernels=0x1023cc030,_kerfftr=
+ 0x102205030,_kerffti=0x102007030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce310dcc30,_x=0x7fce310db430,_y=0x7fce310da430,_centroidgain=1,_rayleigh=
+ 0x7fce308bdf60,_bckgrdcalib=0x7fce31803a30,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bf388)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdf98,_ctrlden=0x7fce308b47c0,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce30710620,_xlast=0x7fce307118b0,_ylast=[0x7fce31861a30,0x7fce31861a30,
+ 0x7fce31861a30],_y0=0x7fce3180c430,_signus=0x7fce30717240,_puppixoffset=[0,0],
+ _nact=80,_def=0x1042f8030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304c0810,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bef98,yposition=
+ 0x7fce308b3b80,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.005,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    91479.9
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       66.0   0.085      442.5
+Field Avg  1.65                     66.0   0.085      442.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1f88)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305de800,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305f0680,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x101db9030,_masks=0x0,_fluxpersub=0x7fce30418b90,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce304b00a0,_skyfluxpersub=0x7fce30417a10,
+ _nphotons=91479.9,_skynphotons=2.25582,_tt=[-0.0200038,0.00829938],
+ _lastvalidtt=[-0.0200038,0.00829938],_upttcommand=[0,0],_refmes=0x7fce3102c430,
+ _tiprefv=0x7fce30939630,_tiltrefv=0x7fce30938e30,_tiprefvn=0x7fce30938630,
+ _tiltrefvn=0x7fce30939e30,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce305ee3f0,_jstart=0x7fce305de5b0,_binindices=
+ 0x7fce310cd430,_binxy=2,_centroidw=0x7fce308b3f38,_fimage=0x7fce310d5430,
+ _fimage2=0x0,_imistart=0x7fce305f1ec0,_imjstart=0x7fce305f0f10,_imistart2=
+ 0x7fce305f1160,_imjstart2=0x7fce305f13b0,_unittip=0x7fce305dd8a0,_unittilt=
+ 0x7fce305ea8d0,_lgs_defocuses=0x7fce308b3d78,_unitdefocus=0x102d0e030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce310dcc30,_flat=
+ 0x7fce310c8430,_domask=1,_submask=0x7fce30930430,_kernel=0x7fce310e6430,
+ _kernels=0x10206d030,_kerfftr=0x102007030,_kerffti=0x102300030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce310d7630,_x=0x7fce310c7e30,_y=0x7fce310cc830,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce310e1e30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bdb38)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b5248,_ctrlden=0x7fce308bde80,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304e1b80,_xlast=0x7fce304e1d00,_ylast=[0x7fce30917630,0x7fce30917630,
+ 0x7fce30917630],_y0=0x7fce308c9a30,_signus=0x7fce304e1f50,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce306172e0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308b5088,yposition=
+ 0x7fce308bef60,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.008,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    721.5
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       60.5   0.354      212.8
+Field Avg  1.65                     60.5   0.354      212.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1c58)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce304b0df0,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce3060c930,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x105bf3030,_masks=0x0,_fluxpersub=0x7fce304c0810,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce304e1f50,_skyfluxpersub=0x7fce304b2ab0,
+ _nphotons=721.499,_skynphotons=0.281977,_tt=[0.00114279,0.0051125],
+ _lastvalidtt=[0.00114279,0.0051125],_upttcommand=[0,0],_refmes=0x7fce30937230,
+ _tiprefv=0x7fce30930430,_tiltrefv=0x7fce31803a30,_tiprefvn=0x7fce30939630,
+ _tiltrefvn=0x7fce31802030,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce3060c5a0,_jstart=0x7fce30618870,_binindices=
+ 0x7fce310e4a30,_binxy=2,_centroidw=0x7fce308bde48,_fimage=0x7fce310dcc30,
+ _fimage2=0x0,_imistart=0x7fce305eee50,_imjstart=0x7fce305ea8d0,_imistart2=
+ 0x7fce305dd8a0,_imjstart2=0x7fce305ddaf0,_unittip=0x7fce30616a40,_unittilt=
+ 0x7fce30615de0,_lgs_defocuses=0x7fce308bdef0,_unitdefocus=0x1056e4030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce30936830,_flat=
+ 0x7fce30935e30,_domask=1,_submask=0x7fce308c6c30,_kernel=0x7fce30938630,
+ _kernels=0x1026bf030,_kerfftr=0x102205030,_kerffti=0x10206d030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce310ce030,_x=0x7fce32014c30,_y=0x7fce3203a030,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce30939e30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bf388)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bee10,_ctrlden=0x7fce308bf008,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304e5860,_xlast=0x7fce304e1b80,_ylast=[0x7fce308c9a30,0x7fce308c9a30,
+ 0x7fce308c9a30],_y0=0x7fce30930e30,_signus=0x7fce30418b90,_puppixoffset=[0,0],
+ _nact=80,_def=0x1042f8030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce305f0a00,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308b40c0,yposition=
+ 0x7fce308b3d40,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    1443.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       60.0   0.341      236.5
+Field Avg  1.65                     60.0   0.341      236.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1590)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305f3270,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305f1390,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1061b9030,_masks=0x0,_fluxpersub=0x7fce304e60a0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce304e62f0,_skyfluxpersub=0x7fce304e6540,
+ _nphotons=1443,_skynphotons=0.563955,_tt=[0.0141701,-0.0121176],_lastvalidtt=
+ [0.0141701,-0.0121176],_upttcommand=[0,0],_refmes=0x7fce3180c430,_tiprefv=
+ 0x7fce32041a30,_tiltrefv=0x7fce30933a30,_tiprefvn=0x7fce32051030,_tiltrefvn=
+ 0x7fce30934230,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce305dd8a0,_jstart=0x7fce305ddaf0,_binindices=0x7fce30932c30,
+ _binxy=2,_centroidw=0x7fce308bdeb8,_fimage=0x7fce3203cc30,_fimage2=0x0,
+ _imistart=0x7fce304e1f50,_imjstart=0x7fce304e1b80,_imistart2=0x7fce30418b90,
+ _imjstart2=0x7fce304b2ab0,_unittip=0x7fce305ee3f0,_unittilt=0x7fce305f1160,
+ _lgs_defocuses=0x7fce308bf318,_unitdefocus=0x101eba030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce309fce30,_flat=0x7fce30936c30,_domask=1,
+ _submask=0x7fce309fc030,_kernel=0x7fce309fb230,_kernels=0x1026bf030,_kerfftr=
+ 0x10206d030,_kerffti=0x102007030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce32040a30,_x=0x7fce310dd630,_y=0x7fce310cf030,_centroidgain=1,_rayleigh=
+ 0x7fce308bdf60,_bckgrdcalib=0x7fce309fd830,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bdb38)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bef28,_ctrlden=0x7fce308b3b10,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce305e01d0,_xlast=0x7fce305f0680,_ylast=[0x7fce31007030,0x7fce31007030,
+ 0x7fce31007030],_y0=0x7fce310d5e30,_signus=0x7fce305eee50,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce306172e0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bdf98,yposition=
+ 0x7fce308b3b48,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.002,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    3607.5
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       61.4   0.262      368.2
+Field Avg  1.65                     61.4   0.262      368.2
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c2890)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce30418b90,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305e01d0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1039c2030,_masks=0x0,_fluxpersub=0x7fce307118b0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30709f90,_skyfluxpersub=0x7fce30716fe0,
+ _nphotons=3607.49,_skynphotons=1.40989,_tt=[0.00841273,0.00396469],
+ _lastvalidtt=[0.00841273,0.00396469],_upttcommand=[0,0],_refmes=0x7fce32022a30,
+ _tiprefv=0x7fce31804830,_tiltrefv=0x7fce309fa430,_tiprefvn=0x7fce31805030,
+ _tiltrefvn=0x7fce30933a30,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce305efe90,_jstart=0x7fce305f0680,_binindices=
+ 0x7fce310ce230,_binxy=2,_centroidw=0x7fce308beef0,_fimage=0x7fce30936c30,
+ _fimage2=0x0,_imistart=0x7fce305dd8a0,_imjstart=0x7fce305ddaf0,_imistart2=
+ 0x7fce305f1af0,_imjstart2=0x7fce305f1d40,_unittip=0x7fce305fbe60,_unittilt=
+ 0x7fce305de800,_lgs_defocuses=0x7fce308bde48,_unitdefocus=0x10278c030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce31803a30,_flat=
+ 0x7fce31802030,_domask=1,_submask=0x7fce31823830,_kernel=0x7fce3185f430,
+ _kernels=0x102300030,_kerfftr=0x102007030,_kerffti=0x102205030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce308c6c30,_x=0x7fce310cd030,_y=0x7fce310cd630,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce31824630,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bf388)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdef0,_ctrlden=0x7fce308bef98,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce3070e150,_xlast=0x7fce3070a1e0,_ylast=[0x7fce31802a30,0x7fce31802a30,
+ 0x7fce31802a30],_y0=0x7fce3180c430,_signus=0x7fce30712320,_puppixoffset=[0,0],
+ _nact=80,_def=0x1042f8030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30710620,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308b5248,yposition=
+ 0x7fce308b47c0,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.005,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    5772.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       66.0   0.086      442.5
+Field Avg  1.65                     66.0   0.086      442.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c2120)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=0x7fce308bd940,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce30619290,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce30717520,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1051e3030,_masks=0x0,_fluxpersub=0x7fce30618870,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30717c10,_skyfluxpersub=0x7fce30718850,
+ _nphotons=5771.99,_skynphotons=2.25582,_tt=[-0.0197808,0.00861333],
+ _lastvalidtt=[-0.0197808,0.00861333],_upttcommand=[0,0],_refmes=0x7fce32022a30,
+ _tiprefv=0x7fce30930430,_tiltrefv=0x7fce30934230,_tiprefvn=0x7fce30a69c30,
+ _tiltrefvn=0x7fce309fa430,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce30717770,_jstart=0x7fce307179c0,_binindices=
+ 0x7fce308c6c30,_binxy=2,_centroidw=0x7fce308b3fe0,_fimage=0x7fce31802030,
+ _fimage2=0x0,_imistart=0x7fce304b00a0,_imjstart=0x7fce304e1f50,_imistart2=
+ 0x7fce30418b90,_imjstart2=0x7fce304b2ab0,_unittip=0x7fce3070a0d0,_unittilt=
+ 0x7fce30712320,_lgs_defocuses=0x7fce308b5210,_unitdefocus=0x1041f7030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce31823e30,_flat=
+ 0x7fce3203f630,_domask=1,_submask=0x7fce31805430,_kernel=0x7fce30a6a430,
+ _kernels=0x102366030,_kerfftr=0x10206d030,_kerffti=0x102300030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce31824830,_x=0x7fce3185ba30,_y=0x7fce31804830,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce3203cc30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bdb38)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdac8,_ctrlden=0x7fce308b5088,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304e1b80,_xlast=0x7fce304e2f70,_ylast=[0x7fce308e5e30,0x7fce308e5e30,
+ 0x7fce308e5e30],_y0=0x7fce308b1630,_signus=0x7fce30417a10,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304bed40,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bee10,yposition=
+ 0x7fce308bde80,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.008,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    7.2
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       75.4   0.137      358.1
+Field Avg  1.65                     75.4   0.137      358.1
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1508)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=
+ 0x7fce308bd940,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce305f2450,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce304b0df0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x104de0030,_masks=0x0,_fluxpersub=0x7fce305ef4a0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce305ef6f0,_skyfluxpersub=0x7fce305ef940,
+ _nphotons=7.21499,_skynphotons=0.281977,_tt=[-0.0248642,-0.00133776],
+ _lastvalidtt=[-0.0248642,-0.00133776],_upttcommand=[0,0],_refmes=
+ 0x7fce31007030,_tiprefv=0x7fce31824030,_tiltrefv=0x7fce310c8630,_tiprefvn=
+ 0x7fce31824830,_tiltrefvn=0x7fce31147430,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce304e4e70,_jstart=0x7fce304e50c0,
+ _binindices=0x7fce3116e630,_binxy=2,_centroidw=0x7fce308bd7b8,_fimage=
+ 0x7fce31146430,_fimage2=0x0,_imistart=0x7fce305dd8a0,_imjstart=0x7fce305ddaf0,
+ _imistart2=0x7fce305de5b0,_imjstart2=0x7fce305de800,_unittip=0x7fce30417a10,
+ _unittilt=0x7fce304c0810,_lgs_defocuses=0x7fce308bd8d0,_unitdefocus=
+ 0x102d0e030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce31145030,
+ _flat=0x7fce310cd030,_domask=1,_submask=0x7fce310dcc30,_kernel=0x7fce3116f430,
+ _kernels=0x102366030,_kerfftr=0x102300030,_kerffti=0x102007030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce310d5430,_x=0x7fce30971230,_y=0x7fce30a69c30,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce31145a30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bf388)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bd9b0,_ctrlden=0x7fce308b41a0,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304eb420,_xlast=0x7fce304e1b80,_ylast=[0x7fce308b1630,0x7fce308b1630,
+ 0x7fce308b1630],_y0=0x7fce30930e30,_signus=0x7fce304eb5a0,_puppixoffset=[0,0],
+ _nact=80,_def=0x1042f8030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304e5310,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bef28,yposition=
+ 0x7fce308bf008,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    14.4
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       66.4   0.213      307.4
+Field Avg  1.65                     66.4   0.213      307.4
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1b48)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=
+ 0x7fce308bd940,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce30622ee0,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce305ea8d0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x104cdf030,_masks=0x0,_fluxpersub=0x7fce305de5b0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce305f0680,_skyfluxpersub=0x7fce305dd8a0,
+ _nphotons=14.43,_skynphotons=0.563955,_tt=[-0.0285713,-0.0100098],_lastvalidtt=
+ [-0.0285713,-0.0100098],_upttcommand=[0,0],_refmes=0x7fce31007030,_tiprefv=
+ 0x7fce30938630,_tiltrefv=0x7fce30934030,_tiprefvn=0x7fce30938e30,_tiltrefvn=
+ 0x7fce309d8a30,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce305ee3f0,_jstart=0x7fce305e01d0,_binindices=0x7fce30930430,
+ _binxy=2,_centroidw=0x7fce308b5168,_fimage=0x7fce32040e30,_fimage2=0x0,
+ _imistart=0x7fce304b00a0,_imjstart=0x7fce30418b90,_imistart2=0x7fce304b2ab0,
+ _imjstart2=0x7fce304e5490,_unittip=0x7fce305f0f10,_unittilt=0x7fce305de800,
+ _lgs_defocuses=0x7fce308bddd8,_unitdefocus=0x1056e4030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce310e0a30,_flat=0x7fce310e0030,_domask=1,
+ _submask=0x7fce310d5430,_kernel=0x7fce310df230,_kernels=0x102205030,_kerfftr=
+ 0x102007030,_kerffti=0x10206d030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce3203cc30,_x=0x7fce310d7c30,_y=0x7fce310ce230,_centroidgain=1,_rayleigh=
+ 0x7fce308bdf60,_bckgrdcalib=0x7fce310e1430,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bdb38)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b50c0,_ctrlden=0x7fce308b3c60,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce3060c5a0,_xlast=0x7fce3060c720,_ylast=[0x7fce32022a30,0x7fce32022a30,
+ 0x7fce32022a30],_y0=0x7fce3203aa30,_signus=0x7fce30618ba0,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304e1b80,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bdef0,yposition=
+ 0x7fce308b3b10,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.002,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    36.1
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       63.3   0.190      378.4
+Field Avg  1.65                     63.3   0.190      378.4
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c0ea8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=
+ 0x7fce308bd940,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce305f0f10,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce305dda20,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x1024be030,_masks=0x0,_fluxpersub=0x7fce30615de0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30622720,_skyfluxpersub=0x7fce3060c5a0,
+ _nphotons=36.0749,_skynphotons=1.40989,_tt=[0.0162621,0.00283341],_lastvalidtt=
+ [0.0162621,0.00283341],_upttcommand=[0,0],_refmes=0x7fce310d5e30,_tiprefv=
+ 0x7fce310c7e30,_tiltrefv=0x7fce32040830,_tiprefvn=0x7fce310c8630,_tiltrefvn=
+ 0x7fce32041030,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce305ee3f0,_jstart=0x7fce305ef4a0,_binindices=0x7fce31802030,
+ _binxy=2,_centroidw=0x7fce308bdda0,_fimage=0x7fce310ce830,_fimage2=0x0,
+ _imistart=0x7fce307176f0,_imjstart=0x7fce30717940,_imistart2=0x7fce30717b90,
+ _imjstart2=0x7fce30717de0,_unittip=0x7fce305e01d0,_unittilt=0x7fce305f0680,
+ _lgs_defocuses=0x7fce308bdf98,_unitdefocus=0x101eba030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce3203a430,_flat=0x7fce32039a30,_domask=1,
+ _submask=0x7fce3203cc30,_kernel=0x7fce31825a30,_kernels=0x1023e7030,_kerfftr=
+ 0x102300030,_kerffti=0x102205030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce310d5430,_x=0x7fce310ce230,_y=0x7fce310d7630,_centroidgain=1,_rayleigh=
+ 0x7fce308bdf60,_bckgrdcalib=0x7fce32041830,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bf388)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bf350,_ctrlden=0x7fce308b3f38,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce305f0a00,_xlast=0x7fce305dd8a0,_ylast=[0x7fce3102c430,0x7fce3102c430,
+ 0x7fce3102c430],_y0=0x7fce31007030,_signus=0x7fce305ea8d0,_puppixoffset=[0,0],
+ _nact=80,_def=0x1042f8030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30616a40,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bdac8,yposition=
+ 0x7fce308bef98,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.005,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    57.7
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       67.7   0.076      445.9
+Field Avg  1.65                     67.7   0.076      445.9
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1040,layerfrac=0x7fce308c1150,
+ layerspeed=0x7fce308c10c8,layeralt=0x7fce308c0fb8,winddir=0x7fce308c0f30,
+ _layeralt=0x7fce308c1480)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b4788,lgs_prof_alt=
+ 0x7fce308bd940,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce304f0710,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce305f0680,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x102b8f030,_masks=0x0,_fluxpersub=0x7fce307118b0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30712320,_skyfluxpersub=0x7fce30709f90,
+ _nphotons=57.7199,_skynphotons=2.25582,_tt=[-0.0169859,0.00104678],
+ _lastvalidtt=[-0.0169859,0.00104678],_upttcommand=[0,0],_refmes=0x7fce30930e30,
+ _tiprefv=0x7fce32044230,_tiltrefv=0x7fce3180ee30,_tiprefvn=0x7fce32045630,
+ _tiltrefvn=0x7fce3180f630,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce305eee50,_jstart=0x7fce305de6f0,_binindices=
+ 0x7fce30946a30,_binxy=2,_centroidw=0x7fce308bf318,_fimage=0x7fce30947830,
+ _fimage2=0x0,_imistart=0x7fce304ef000,_imjstart=0x7fce304ef250,_imistart2=
+ 0x7fce304ef4a0,_imjstart2=0x7fce304ef6f0,_unittip=0x7fce305f0f10,_unittilt=
+ 0x7fce305e01d0,_lgs_defocuses=0x7fce308bddd8,_unitdefocus=0x10278c030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce31826230,_flat=
+ 0x7fce3203a430,_domask=1,_submask=0x7fce3185f430,_kernel=0x7fce31805430,
+ _kernels=0x1023e7030,_kerfftr=0x102205030,_kerffti=0x102007030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce30930430,_x=0x7fce310d0e30,_y=0x7fce310c8430,
+ _centroidgain=1,_rayleigh=0x7fce308bdf60,_bckgrdcalib=0x7fce32039a30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bdb38)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bee10,_ctrlden=0x7fce308bd8d0,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304e1f50,_xlast=0x7fce304e1b80,_ylast=[0x7fce30917630,0x7fce30917630,
+ 0x7fce30917630],_y0=0x7fce308b1630,_signus=0x7fce30418b90,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30710620,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bf0b0,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd908,xposition=0x7fce308bd9b0,yposition=
+ 0x7fce308b5088,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b3de8,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.008,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    11435.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      127.4   0.068      337.8
+Field Avg  1.65                    127.4   0.068      337.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c1150,layerfrac=0x7fce308c10c8,
+ layerspeed=0x7fce308c1040,layeralt=0x7fce308c11d8,winddir=0x7fce308c1260,
+ _layeralt=0x7fce308c2ab0)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308b5088,lgs_prof_alt=0x7fce308bd908,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305ef4a0,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce3060c930,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x103cf5030,_masks=0x0,_fluxpersub=0x7fce30618ac0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30618d10,_skyfluxpersub=0x7fce30618f60,
+ _nphotons=11435,_skynphotons=0.281977,_tt=[-0.0823862,0.0296563],_lastvalidtt=
+ [-0.0823862,0.0296563],_upttcommand=[0,0],_refmes=0x7fce310c8a30,_tiprefv=
+ 0x7fce311b1630,_tiltrefv=0x7fce30946830,_tiprefvn=0x7fce310d7630,_tiltrefvn=
+ 0x7fce30947030,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce3060c5a0,_jstart=0x7fce30616660,_binindices=0x7fce32076a30,
+ _binxy=2,_centroidw=0x7fce308bf120,_fimage=0x7fce310cd030,_fimage2=0x0,
+ _imistart=0x7fce30614500,_imjstart=0x7fce30614750,_imistart2=0x7fce306149a0,
+ _imjstart2=0x7fce30618870,_unittip=0x7fce306168b0,_unittilt=0x7fce30615de0,
+ _lgs_defocuses=0x7fce308b3fe0,_unitdefocus=0x1041f7030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce309eca30,_flat=0x7fce31803a30,_domask=1,
+ _submask=0x7fce32078c30,_kernel=0x7fce31802030,_kernels=0x10206d030,_kerfftr=
+ 0x102205030,_kerffti=0x102007030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce32072030,_x=0x7fce32014c30,_y=0x7fce32072a30,_centroidgain=1,_rayleigh=
+ 0x7fce308bde48,_bckgrdcalib=0x7fce3185f430,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308b50f8)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b50c0,_ctrlden=0x7fce308b3bb8,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce304b2ab0,_xlast=0x7fce304bed40,_ylast=[0x7fce30917630,0x7fce30917630,
+ 0x7fce30917630],_y0=0x7fce308b1630,_signus=0x7fce304e1f50,_puppixoffset=[0,0],
+ _nact=80,_def=0x108633030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce3070e150,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bdf60,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308bd8d0,xposition=0x7fce308bf2a8,yposition=
+ 0x7fce308bd710,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b4788,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.01,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    11435.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      127.4   0.068      337.8
+Field Avg  1.65                    127.4   0.068      337.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c1d68)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce304b00a0,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305dc0a0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1057e5030,_masks=0x0,_fluxpersub=0x7fce30616920,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30614500,_skyfluxpersub=0x7fce30614750,
+ _nphotons=11435,_skynphotons=0.281977,_tt=[-0.0824023,0.0295357],_lastvalidtt=
+ [-0.0824023,0.0295357],_upttcommand=[0,0],_refmes=0x7fce32022a30,_tiprefv=
+ 0x7fce30943630,_tiltrefv=0x7fce30a0b230,_tiprefvn=0x7fce30943e30,_tiltrefvn=
+ 0x7fce30945030,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce305dc2f0,_jstart=0x7fce305ef4a0,_binindices=0x7fce311bb230,
+ _binxy=2,_centroidw=0x7fce308bdef0,_fimage=0x7fce32078c30,_fimage2=0x0,
+ _imistart=0x7fce305ef6f0,_imjstart=0x7fce305ef940,_imistart2=0x7fce305efb90,
+ _imjstart2=0x7fce305efde0,_unittip=0x7fce305d4810,_unittilt=0x7fce305dbe70,
+ _lgs_defocuses=0x7fce308bdfd0,_unitdefocus=0x102d0e030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce30932c30,_flat=0x7fce30945830,_domask=1,
+ _submask=0x7fce32039a30,_kernel=0x7fce3203cc30,_kernels=0x1023e7030,_kerfftr=
+ 0x102205030,_kerffti=0x102007030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce32077030,_x=0x7fce311ac830,_y=0x7fce310d6830,_centroidgain=1,_rayleigh=
+ 0x7fce308b5248,_bckgrdcalib=0x7fce30946230,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308b41a0)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b5210,_ctrlden=0x7fce308bf2a8,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce306172e0,_xlast=0x7fce30615de0,_ylast=[0x7fce3201aa30,0x7fce3201aa30,
+ 0x7fce3201aa30],_y0=0x7fce3200fc30,_signus=0x7fce3060c5a0,_puppixoffset=[0,0],
+ _nact=80,_def=0x108d11030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce305ea8d0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bdf60,yposition=
+ 0x7fce308b3de8,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.01,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    11435.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       56.0   0.557      118.2
+Field Avg  1.65                     56.0   0.557      118.2
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c2a28)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305f2120,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce30717900,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x10278c030,_masks=0x0,_fluxpersub=0x7fce30717480,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce307186e0,_skyfluxpersub=0x7fce30718930,
+ _nphotons=11435,_skynphotons=0.281977,_tt=[-0.00627382,0.00609853],
+ _lastvalidtt=[-0.00627382,0.00609853],_upttcommand=[0,0],_refmes=
+ 0x7fce308b1630,_tiprefv=0x7fce310d6230,_tiltrefv=0x7fce3203a430,_tiprefvn=
+ 0x7fce311ae830,_tiltrefvn=0x7fce3207d430,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce30717b50,_jstart=0x7fce30717da0,
+ _binindices=0x7fce31805430,_binxy=2,_centroidw=0x7fce308b3d08,_fimage=
+ 0x7fce311b0830,_fimage2=0x0,_imistart=0x7fce30718490,_imjstart=0x7fce30709f90,
+ _imistart2=0x7fce30716fe0,_imjstart2=0x7fce30717230,_unittip=0x7fce307118b0,
+ _unittilt=0x7fce307176d0,_lgs_defocuses=0x7fce308bdac8,_unitdefocus=
+ 0x1056e4030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce31825030,
+ _flat=0x7fce31824630,_domask=1,_submask=0x7fce31823830,_kernel=0x7fce30933e30,
+ _kernels=0x1023e7030,_kerfftr=0x102300030,_kerffti=0x10206d030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce310d5430,_x=0x7fce31807c30,_y=0x7fce31802030,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce3180f430,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bd908)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bd6a0,_ctrlden=0x7fce308bf3c0,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce3070e150,_xlast=0x7fce3070a1e0,_ylast=[0x7fce31841430,0x7fce31841430,
+ 0x7fce31841430],_y0=0x7fce31861a30,_signus=0x7fce30712320,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30710620,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bddd8,yposition=
+ 0x7fce308b3f38,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.1,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    11435.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       61.9   0.343      206.1
+Field Avg  1.65                     61.9   0.343      206.1
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c13f8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305ef700,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305f1500,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1041f7030,_masks=0x0,_fluxpersub=0x7fce30615de0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30616660,_skyfluxpersub=0x7fce3060c930,
+ _nphotons=11435,_skynphotons=0.281977,_tt=[-0.0116678,-0.00457881],
+ _lastvalidtt=[-0.0116678,-0.00457881],_upttcommand=[0,0],_refmes=
+ 0x7fce3102c430,_tiprefv=0x7fce30936830,_tiltrefv=0x7fce30947a30,_tiprefvn=
+ 0x7fce30938630,_tiltrefvn=0x7fce30938e30,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce305f1750,_jstart=0x7fce305f19a0,
+ _binindices=0x7fce30940830,_binxy=2,_centroidw=0x7fce308bf388,_fimage=
+ 0x7fce311b0a30,_fimage2=0x0,_imistart=0x7fce304b00a0,_imjstart=0x7fce304e1b80,
+ _imistart2=0x7fce30418b90,_imjstart2=0x7fce304b2ab0,_unittip=0x7fce305d4810,
+ _unittilt=0x7fce305ee3f0,_lgs_defocuses=0x7fce308bdfd0,_unitdefocus=
+ 0x101eba030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce310c7e30,
+ _flat=0x7fce311ac830,_domask=1,_submask=0x7fce32039a30,_kernel=0x7fce3203cc30,
+ _kernels=0x102007030,_kerfftr=0x10206d030,_kerffti=0x102205030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce310cd030,_x=0x7fce310ce230,_y=0x7fce310d6830,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce311ad230,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308b41a0)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdef0,_ctrlden=0x7fce308b3b80,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce305ea8d0,_xlast=0x7fce305f0680,_ylast=[0x7fce311bd430,0x7fce311bd430,
+ 0x7fce311bd430],_y0=0x7fce31003630,_signus=0x7fce305eee50,_puppixoffset=[0,0],
+ _nact=80,_def=0x106abb030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce306172e0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308b47c0,yposition=
+ 0x7fce308bd668,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    11435.0
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      241.3   0.011      790.5
+Field Avg  1.65                    241.3   0.011      790.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c2120)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=6,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305e01d0,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce3060c930,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1061b9030,_masks=0x0,_fluxpersub=0x7fce30712320,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30709f90,_skyfluxpersub=0x7fce30716fe0,
+ _nphotons=11435,_skynphotons=0.281977,_tt=[0.0516345,-0.13866],_lastvalidtt=
+ [0.0516345,-0.13866],_upttcommand=[0,0],_refmes=0x7fce308b1630,_tiprefv=
+ 0x7fce3207b830,_tiltrefv=0x7fce3203a430,_tiprefvn=0x7fce3207c030,_tiltrefvn=
+ 0x7fce3207dc30,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce30614500,_jstart=0x7fce30614750,_binindices=0x7fce30947030,
+ _binxy=2,_centroidw=0x7fce308bd828,_fimage=0x7fce310c7e30,_fimage2=0x0,
+ _imistart=0x7fce304e1b80,_imjstart=0x7fce30418b90,_imistart2=0x7fce304b2ab0,
+ _imjstart2=0x7fce304e5630,_unittip=0x7fce30615de0,_unittilt=0x7fce30613d90,
+ _lgs_defocuses=0x7fce308bdf98,_unitdefocus=0x102b8f030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce31804830,_flat=0x7fce3185f430,_domask=1,
+ _submask=0x7fce31803a30,_kernel=0x7fce309fa630,_kernels=0x102366030,_kerfftr=
+ 0x102300030,_kerffti=0x102007030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce310ce230,_x=0x7fce32014c30,_y=0x7fce3207c830,_centroidgain=1,_rayleigh=
+ 0x7fce308b5248,_bckgrdcalib=0x7fce31805230,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bd908)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bf008,_ctrlden=0x7fce308b3b10,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce305dd8a0,_xlast=0x7fce305dbe70,_ylast=[0x7fce31003630,0x7fce31003630,
+ 0x7fce31003630],_y0=0x7fce3102c430,_signus=0x7fce305f1950,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30613fc0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308b5210,yposition=
+ 0x7fce308b3e20,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.9,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    721.5
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      127.4   0.068      337.8
+Field Avg  1.65                    127.4   0.068      337.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c25e8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305dc170,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce304b2ab0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1039c2030,_masks=0x0,_fluxpersub=0x7fce305ee3f0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce305efad0,_skyfluxpersub=0x7fce305efd20,
+ _nphotons=721.499,_skynphotons=0.281977,_tt=[-0.082991,0.0305071],_lastvalidtt=
+ [-0.082991,0.0305071],_upttcommand=[0,0],_refmes=0x7fce30930e30,_tiprefv=
+ 0x7fce311af030,_tiltrefv=0x7fce311ac830,_tiprefvn=0x7fce311af830,_tiltrefvn=
+ 0x7fce311b0030,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce304ee450,_jstart=0x7fce304ee6a0,_binindices=0x7fce310eae30,
+ _binxy=2,_centroidw=0x7fce308bde80,_fimage=0x7fce30932c30,_fimage2=0x0,
+ _imistart=0x7fce305ea8d0,_imjstart=0x7fce305f0680,_imistart2=0x7fce305eee50,
+ _imjstart2=0x7fce305d4810,_unittip=0x7fce304e2f70,_unittilt=0x7fce30418b90,
+ _lgs_defocuses=0x7fce308bdf60,_unitdefocus=0x103cf5030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce310d5e30,_flat=0x7fce310d5430,_domask=1,
+ _submask=0x7fce310ebc30,_kernel=0x7fce310f1030,_kernels=0x102366030,_kerfftr=
+ 0x102205030,_kerffti=0x10206d030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce30935e30,_x=0x7fce308ca630,_y=0x7fce30930430,_centroidgain=1,_rayleigh=
+ 0x7fce308b5248,_bckgrdcalib=0x7fce310eca30,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308b41a0)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdfd0,_ctrlden=0x7fce308b5168,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce3070e150,_xlast=0x7fce30710620,_ylast=[0x7fce31861a30,0x7fce31861a30,
+ 0x7fce31861a30],_y0=0x7fce3180c430,_signus=0x7fce30716fe0,_puppixoffset=[0,0],
+ _nact=80,_def=0x106abb030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce305dd8a0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bd6a0,yposition=
+ 0x7fce308bf2a8,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.01,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    721.5
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       56.0   0.556      118.2
+Field Avg  1.65                     56.0   0.556      118.2
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c1df0)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305de5b0,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce304c0810,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x1051e3030,_masks=0x0,_fluxpersub=0x7fce30616a00,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30614500,_skyfluxpersub=0x7fce30613d90,
+ _nphotons=721.499,_skynphotons=0.281977,_tt=[-0.00619758,0.00598355],
+ _lastvalidtt=[-0.00619758,0.00598355],_upttcommand=[0,0],_refmes=
+ 0x7fce310d7e30,_tiprefv=0x7fce311ae830,_tiltrefv=0x7fce311ad030,_tiprefvn=
+ 0x7fce311af030,_tiltrefvn=0x7fce311ac830,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce304b00a0,_jstart=0x7fce30417a10,
+ _binindices=0x7fce310d5e30,_binxy=2,_centroidw=0x7fce308bf0e8,_fimage=
+ 0x7fce310d5430,_fimage2=0x0,_imistart=0x7fce305de800,_imjstart=0x7fce305efab0,
+ _imistart2=0x7fce305efd00,_imjstart2=0x7fce305dbe70,_unittip=0x7fce304e2f70,
+ _unittilt=0x7fce304b0df0,_lgs_defocuses=0x7fce308bddd8,_unitdefocus=
+ 0x102d0e030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce32039a30,
+ _flat=0x7fce32066430,_domask=1,_submask=0x7fce32054030,_kernel=0x7fce30930430,
+ _kernels=0x102366030,_kerfftr=0x102007030,_kerffti=0x102300030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce310ce230,_x=0x7fce30971230,_y=0x7fce30932c30,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce32054e30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bd908)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bf190,_ctrlden=0x7fce308bde10,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce307118b0,_xlast=0x7fce3070e150,_ylast=[0x7fce3180c430,0x7fce3180c430,
+ 0x7fce3180c430],_y0=0x7fce31841430,_signus=0x7fce30717f10,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30710620,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bdef0,yposition=
+ 0x7fce308bf3c0,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.1,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    721.5
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       61.4   0.355      209.4
+Field Avg  1.65                     61.4   0.355      209.4
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c2230)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce304e9c00,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce30709f90,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x104de0030,_masks=0x0,_fluxpersub=0x7fce304c0810,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce304b0df0,_skyfluxpersub=0x7fce304b00a0,
+ _nphotons=721.499,_skynphotons=0.281977,_tt=[-0.0118516,-0.00120413],
+ _lastvalidtt=[-0.0118516,-0.00120413],_upttcommand=[0,0],_refmes=
+ 0x7fce31003630,_tiprefv=0x7fce310eba30,_tiltrefv=0x7fce32054030,_tiprefvn=
+ 0x7fce311ae830,_tiltrefvn=0x7fce32054830,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce30716fe0,_jstart=0x7fce30717230,
+ _binindices=0x7fce31805430,_binxy=2,_centroidw=0x7fce308beef0,_fimage=
+ 0x7fce30930430,_fimage2=0x0,_imistart=0x7fce30717920,_imjstart=0x7fce30717b70,
+ _imistart2=0x7fce30717dc0,_imjstart2=0x7fce30718010,_unittip=0x7fce307118b0,
+ _unittilt=0x7fce30712320,_lgs_defocuses=0x7fce308bdf60,_unitdefocus=
+ 0x1056e4030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce310d5430,
+ _flat=0x7fce310ce230,_domask=1,_submask=0x7fce30946c30,_kernel=0x7fce30933e30,
+ _kernels=0x1023cc030,_kerfftr=0x10206d030,_kerffti=0x102366030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce309fa030,_x=0x7fce3185c830,_y=0x7fce3185f430,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce310c7e30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308b41a0)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdb38,_ctrlden=0x7fce308bd9b0,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce305ee3f0,_xlast=0x7fce305e01d0,_ylast=[0x7fce311bd430,0x7fce311bd430,
+ 0x7fce311bd430],_y0=0x7fce310d7e30,_signus=0x7fce305eee50,_puppixoffset=[0,0],
+ _nact=80,_def=0x106abb030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce305f0a00,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bf008,yposition=
+ 0x7fce308b3b80,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    721.5
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      274.2   0.010      797.2
+Field Avg  1.65                    274.2   0.010      797.2
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c22b8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=9,
+ skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,optthroughput=1,
+ disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,framedelay=-1,
+ nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,fieldstopdiam=0,
+ pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,pyr_mod_loc=0x0,
+ pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=1.19121,npixels=2,
+ spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,shthreshold=0,
+ shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,fstop="square",
+ fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,centGainOpt=0,
+ LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,rayleighflag=
+ 0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=0x7fce308bd8d0,nzer=
+ 0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,_svipc_init_done=0,
+ _svipc_subok=0x7fce305efad0,_fork_subs=0x0,_fork_subs2=0x0,_validsubs=
+ 0x7fce305f0680,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,_nsub=120,
+ _nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,_tiltsh=
+ 0x104cdf030,_masks=0x0,_fluxpersub=0x7fce304c0810,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce304e9c00,_skyfluxpersub=0x7fce304b00a0,
+ _nphotons=721.499,_skynphotons=0.281977,_tt=[0.0795827,-0.116621],_lastvalidtt=
+ [0.0795827,-0.116621],_upttcommand=[0,0],_refmes=0x7fce30917630,_tiprefv=
+ 0x7fce31824030,_tiltrefv=0x7fce310c7e30,_tiprefvn=0x7fce31824830,_tiltrefvn=
+ 0x7fce310c8630,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce305dd8a0,_jstart=0x7fce305dbe70,_binindices=0x7fce31805430,
+ _binxy=2,_centroidw=0x7fce308b3cd0,_fimage=0x7fce311ac830,_fimage2=0x0,
+ _imistart=0x7fce30717230,_imjstart=0x7fce30717480,_imistart2=0x7fce307176d0,
+ _imjstart2=0x7fce30717920,_unittip=0x7fce305e01d0,_unittilt=0x7fce305dc3f0,
+ _lgs_defocuses=0x7fce308bdac8,_unitdefocus=0x101eba030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce3180e630,_flat=0x7fce3180f030,_domask=1,
+ _submask=0x7fce30a26230,_kernel=0x7fce3203cc30,_kernels=0x1023cc030,_kerfftr=
+ 0x102366030,_kerffti=0x102007030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce311ae830,_x=0x7fce310ce230,_y=0x7fce311b0a30,_centroidgain=1,_rayleigh=
+ 0x7fce308b5248,_bckgrdcalib=0x7fce3180fa30,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308bd908)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bf0e8,_ctrlden=0x7fce308beef0,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce3070e150,_xlast=0x7fce30710620,_ylast=[0x7fce3180c430,0x7fce3180c430,
+ 0x7fce3180c430],_y0=0x7fce31841430,_signus=0x7fce307118b0,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30472c70,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bdfd0,yposition=
+ 0x7fce308b3b10,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.9,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    7.2
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      160.5   0.049      361.5
+Field Avg  1.65                    160.5   0.049      361.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c1bd0)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=
+ 0x7fce308bd8d0,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce304b2ab0,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce307118b0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x1024be030,_masks=0x0,_fluxpersub=0x7fce305e01d0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce305ea8d0,_skyfluxpersub=0x7fce305f0680,
+ _nphotons=7.21499,_skynphotons=0.281977,_tt=[-0.043222,0.0282512],_lastvalidtt=
+ [-0.043222,0.0282512],_upttcommand=[0,0],_refmes=0x7fce31003630,_tiprefv=
+ 0x7fce30946630,_tiltrefv=0x7fce32040630,_tiprefvn=0x7fce309f5a30,_tiltrefvn=
+ 0x7fce32040e30,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,_nx4fft=28,
+ _istart=0x7fce30717740,_jstart=0x7fce30718290,_binindices=0x7fce31825a30,
+ _binxy=2,_centroidw=0x7fce308bf350,_fimage=0x7fce309f7a30,_fimage2=0x0,
+ _imistart=0x7fce30718980,_imjstart=0x7fce30718bd0,_imistart2=0x7fce30718e20,
+ _imjstart2=0x7fce30719070,_unittip=0x7fce3060c5a0,_unittilt=0x7fce3061ac20,
+ _lgs_defocuses=0x7fce308bd6a0,_unitdefocus=0x102b8f030,_fimnx=24,_fimny=24,
+ _fimny2=0x0,_yoffset=0x0,_bias=0x7fce32041630,_flat=0x7fce32039a30,_domask=1,
+ _submask=0x7fce310fe830,_kernel=0x7fce30933e30,_kernels=0x102300030,_kerfftr=
+ 0x102205030,_kerffti=0x10206d030,_kernelconv=0,_cyclecounter=1,_dispimage=
+ 0x7fce30939e30,_x=0x7fce31807c30,_y=0x7fce3185fe30,_centroidgain=1,_rayleigh=
+ 0x7fce308b5248,_bckgrdcalib=0x7fce3203a430,_bckgrdinit=0,_bckgrdsub=1,
+ _meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,_wpha2dhc=0x0,_n12=[0,0],
+ _LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,_LLT_pos=[0,0],_LLT_pupil=
+ 0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,_dmnotinpath=0x7fce308b41a0)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308b3f38,_ctrlden=0x7fce308bd780,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce30712320,_xlast=0x7fce3070e150,_ylast=[0x7fce31841430,0x7fce31841430,
+ 0x7fce31841430],_y0=0x7fce31861a30,_signus=0x7fce30717480,_puppixoffset=[0,0],
+ _nact=80,_def=0x106abb030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304e2f70,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bf190,yposition=
+ 0x7fce308b5168,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.01,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    7.2
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       61.4   0.262      239.8
+Field Avg  1.65                     61.4   0.262      239.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c1f00)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=
+ 0x7fce308bd8d0,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce304e5ca0,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce305ef4a0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x101db9030,_masks=0x0,_fluxpersub=0x7fce306168b0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce30614500,_skyfluxpersub=0x7fce30614750,
+ _nphotons=7.21499,_skynphotons=0.281977,_tt=[-0.0231537,-0.0105044],
+ _lastvalidtt=[-0.0231537,-0.0105044],_upttcommand=[0,0],_refmes=0x7fce30930e30,
+ _tiprefv=0x7fce311ad030,_tiltrefv=0x7fce311b1a30,_tiprefvn=0x7fce310d5430,
+ _tiltrefvn=0x7fce311af230,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce305ea8d0,_jstart=0x7fce305f0680,_binindices=
+ 0x7fce3203cc30,_binxy=2,_centroidw=0x7fce308bee80,_fimage=0x7fce309f7a30,
+ _fimage2=0x0,_imistart=0x7fce3060c5a0,_imjstart=0x7fce30613d90,_imistart2=
+ 0x7fce30613fe0,_imjstart2=0x7fce30616660,_unittip=0x7fce30712320,_unittilt=
+ 0x7fce30709f90,_lgs_defocuses=0x7fce308bdef0,_unitdefocus=0x103cf5030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce32040030,_flat=
+ 0x7fce3203f630,_domask=1,_submask=0x7fce32044e30,_kernel=0x7fce310c7e30,
+ _kernels=0x10206d030,_kerfftr=0x102366030,_kerffti=0x102300030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce30932c30,_x=0x7fce310d6230,_y=0x7fce310d6830,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce32043430,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bd908)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdda0,_ctrlden=0x7fce308b5210,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce30472c70,_xlast=0x7fce304e1b80,_ylast=[0x7fce30917630,0x7fce30917630,
+ 0x7fce30917630],_y0=0x7fce308c9a30,_signus=0x7fce304e4e70,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce305ef6f0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bdb38,yposition=
+ 0x7fce308bde10,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.1,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    7.2
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0       73.8   0.144      364.8
+Field Avg  1.65                     73.8   0.144      364.8
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c26f8)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=
+ 0x7fce308bd8d0,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce304b2ab0,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce304b00a0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x105bf3030,_masks=0x0,_fluxpersub=0x7fce30615de0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce3060c5a0,_skyfluxpersub=0x7fce30613d90,
+ _nphotons=7.21499,_skynphotons=0.281977,_tt=[-0.00341573,-0.0252846],
+ _lastvalidtt=[-0.00341573,-0.0252846],_upttcommand=[0,0],_refmes=
+ 0x7fce3094fe30,_tiprefv=0x7fce309f3e30,_tiltrefv=0x7fce30933e30,_tiprefvn=
+ 0x7fce309f5230,_tiltrefvn=0x7fce309f7a30,_reordervec=0x0,_npixels=2,_npb=0,
+ _sdim=32,_nx=28,_nx4fft=28,_istart=0x7fce304e4e70,_jstart=0x7fce30417a10,
+ _binindices=0x7fce310c7e30,_binxy=2,_centroidw=0x7fce308bdd68,_fimage=
+ 0x7fce309f5a30,_fimage2=0x0,_imistart=0x7fce305f0680,_imjstart=0x7fce305d4810,
+ _imistart2=0x7fce305ee3f0,_imjstart2=0x7fce305f0f10,_unittip=0x7fce304b0df0,
+ _unittilt=0x7fce304e2f70,_lgs_defocuses=0x7fce308bf040,_unitdefocus=
+ 0x102d0e030,_fimnx=24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce32039a30,
+ _flat=0x7fce3203d030,_domask=1,_submask=0x7fce32047630,_kernel=0x7fce311af230,
+ _kernels=0x102300030,_kerfftr=0x102205030,_kerffti=0x10206d030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce309f6430,_x=0x7fce30930c30,_y=0x7fce3085c630,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce3203a430,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308b41a0)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bddd8,_ctrlden=0x7fce308bdf98,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce306172e0,_xlast=0x7fce30618870,_ylast=[0x7fce32014c30,0x7fce32014c30,
+ 0x7fce32014c30],_y0=0x7fce32022a30,_signus=0x7fce3060c930,_puppixoffset=[0,0],
+ _nact=80,_def=0x106abb030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce30613fe0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308bf0e8,yposition=
+ 0x7fce308bd9b0,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.5,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")
+=============================
+SH 12x12 w/ TT mirror and WFS, full diffraction WFS
+ 
+WFS# |     Pixel sizes        | Subaperture size | Numb of pixels | #photons
+      | Desired Quantum Actual | Max  Actual Extd | Desired Actual | /sub/iter
+ 1      1.1912  0.0851  1.1912   2.72  2.38  2.38    2x 2    2x 2    7.2
+ 
+Summary:
+Mirror #1, zernike, 80 actuators, conjugated @ 0 m
+WFS # 1, hartmann (meth. 2), 120 subap., offaxis (+0.0",+0.0"), noise enabled
+D/r0 (500nm) = 35.0; 500 iterations
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1     1.65    0.0   0.0      187.2   0.024      567.5
+Field Avg  1.65                    187.2   0.024      567.5
+Field rms  1.65                      0.0   0.000        0.0
+
+Average images written in sh12x12-imav.fits
+Some other graphics in sh12x12.ps
+
+Original parameter file: sh12x12.par:
+ // YAO parameter file
+ //-------------------------------
+ sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+ sim.pupildiam      = 132;
+ sim.debug          = 0;
+ sim.verbose        = 1;
+ 
+ //-------------------------------
+ atm.dr0at05mic     = 43.33;  // this is r0=0.166 at 550 nm
+ atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");
+ atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+ atm.layerspeed     = &([11.,20,29,35]);
+ atm.layeralt	   = &([0.,400,6000,9000]);
+ atm.winddir        = &([0,0,0,0]);
+ 
+ //-------------------------------
+ nwfs               = 1; // number of WFSs (>1 if e.g. mcao multi-conjugate adaptive optics)
+ wfs = array(wfss,nwfs);
+ 
+ n   = 1;
+ wfs(n).type	       = "hartmann";
+ wfs(n).lambda	   = 0.65;// all the information related to the wfs should be in wavelength 650 nm. R band.
+ wfs(n).gspos       = [0.,0.];
+ wfs(n).gsalt       = 0.;
+ wfs(n).gsmag       = 5.;
+ wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky in full moon.
+ wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+ wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter
+ wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, plate scale is 60 um/arcsec
+ wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture
+ wfs(n).npixpersub  = 11;
+ wfs(n).noise       = 1; //whether the noise could be switched on or off
+ wfs(n).ron         = 3.7;
+ //wfs(n).fracIllum   = 0.75;
+ //wfs(n).shthreshold = 0.;
+ //wfs(n).nintegcycles= 1;
+ //wfs(n).nzer        = 80;
+ wfs(n).fssize      = 2.4;
+ wfs(n).fstop       = "square";
+ //-------------------------------
+ ndm                = 1;
+ dm = array(dms,ndm);
+ 
+ n  =1;
+ dm(n).type	       = "zernike";
+ dm(n).nzer         = 80;
+ //dm(n).iffile	   = "";
+ //dm(n).nxact	       = 20;
+ dm(n).pitch	       = 7;
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt  = 0.01;
+ //dm(n).push4imat    = 100;
+ 
+ //n  =2;
+ //dm(n).type	   = "tiptilt";
+ //dm(n).iffile	   = "";
+ //dm(n).alt          = 0.;
+ //dm(n).unitpervolt   = 0.0005;
+ //dm(n).push4imat    = 400;
+ 
+ //-------------------------------
+ mat.condition      = &([15.]);
+ mat.file	       = "";
+ 
+ //-------------------------------
+ tel.diam	   = 6.5;
+ tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+ 
+ //-------------------------------
+ target.lambda	   = &([1.65]);
+ target.xposition   = &([0.]);
+ target.yposition   = &([0]);
+ target.dispzoom    = &([1.]);
+ 
+ //-------------------------------
+ gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated with the H band.
+ 
+ //-------------------------------
+ loop.gain	       = 0.5;
+ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2
+ loop.niter	       = 500;
+ loop.ittime	       = 1e-3;
+ loop.startskip     = 10;
+ loop.skipevery     = 10000;
+ loop.skipby        = 10000;
+ loop.modalgainfile = "simulModeGains.fits";
+ 
+ //-------------------------------
+ 
+==== dump of structures ====
+ sim_struct(name="SH 12x12 w/ TT mirror and WFS, full diffraction WFS",
+ pupildiam=132,pupilapod=0,debug=0,verbose=1,svipc=0,svipc_wfs_nfork=0,
+ svipc_wfs_forknb=0x0,shmkey=0,semkey=0,_size=512,_cent=256.5)
+ atm_struct(dr0at05mic=35,screen=0x7fce308c10c8,layerfrac=0x7fce308c1040,
+ layerspeed=0x7fce308c1150,layeralt=0x7fce308c0f30,winddir=0x7fce308c0fb8,
+ _layeralt=0x7fce308c1b48)
+ [wfs_struct(type="hartmann",subsystem=1,lambda=0.65,noise=1,ron=3.7,
+ darkcurrent=0,excessnoise=1,gspos=[0,0],gsalt=0,gsdepth=0,laserpower=0,gsmag=
+ 14,skymag=17.9,filtertilt=0,correctUpTT=0,uplinkgain=0,dispzoom=1,
+ optthroughput=1,disjointpup=0,svipc=0,zeropoint=0,ncpdm=0,dmnotinpath=0x0,
+ framedelay=-1,nsubperring=0x0,angleoffset=0x0,l=0,rint=0x0,rout=0x0,
+ fieldstopdiam=0,pyr_mod_ampl=0,pyr_mod_npts=0,pyr_mod_pos=0x0,pyr_padding=0,
+ pyr_mod_loc=0x0,pyr_denom=0x0,shmethod=2,shnxsub=12,npixpersub=11,pixsize=
+ 1.19121,npixels=2,spotpitch=2,extfield=2.38243,pupoffset=[0,0],shthmethod=1,
+ shthreshold=0,shcalibseeing=0.667,biasrmserror=0,flatrmserror=0,fsname=0x0,
+ fstop="square",fssize=2.4,fsoffset=[0,0],kernel=0,nintegcycles=1,fracIllum=0.5,
+ centGainOpt=0,LLTxy=[0,0],LLT_uplink_turb=0,LLTr0=0,LLTdiam=0,LLT1overe2diam=0,
+ rayleighflag=0,lgs_focus_alt=0,lgs_prof_amp=0x7fce308bd710,lgs_prof_alt=
+ 0x7fce308bd8d0,nzer=0,ndh=0,ndhfiltered=0,_framedelay=2,_initkernels=0,
+ _svipc_init_done=0,_svipc_subok=0x7fce304e5db0,_fork_subs=0x0,_fork_subs2=0x0,
+ _validsubs=0x7fce30717dd0,_origpixsize=1.2,_rebinfactor=14,_gsalt=0,_gsdepth=0,
+ _nsub=120,_nsub4disp=132,_nmes=240,_sind=0x0,_nsind=0x0,_cxdef=0x0,_sxdef=0x0,
+ _tiltsh=0x1057e5030,_masks=0x0,_fluxpersub=0x7fce304b0df0,_rayleighflux=0x0,
+ _sodiumflux=0x0,_raylfluxpersub=0x7fce304b00a0,_skyfluxpersub=0x7fce30416cd0,
+ _nphotons=7.21499,_skynphotons=0.281977,_tt=[0.0215886,-0.0308124],
+ _lastvalidtt=[0.0215886,-0.0308124],_upttcommand=[0,0],_refmes=0x7fce308b1630,
+ _tiprefv=0x7fce309f1e30,_tiltrefv=0x7fce310c8630,_tiprefvn=0x7fce309f3e30,
+ _tiltrefvn=0x7fce311ac830,_reordervec=0x0,_npixels=2,_npb=0,_sdim=32,_nx=28,
+ _nx4fft=28,_istart=0x7fce30718020,_jstart=0x7fce30718270,_binindices=
+ 0x7fce31826030,_binxy=2,_centroidw=0x7fce308b47c0,_fimage=0x7fce309e6230,
+ _fimage2=0x0,_imistart=0x7fce30718ac0,_imjstart=0x7fce30718d10,_imistart2=
+ 0x7fce30718f60,_imjstart2=0x7fce307191b0,_unittip=0x7fce3070a110,_unittilt=
+ 0x7fce30717ba0,_lgs_defocuses=0x7fce308b3e20,_unitdefocus=0x1056e4030,_fimnx=
+ 24,_fimny=24,_fimny2=0x0,_yoffset=0x0,_bias=0x7fce310cd030,_flat=
+ 0x7fce310d5430,_domask=1,_submask=0x7fce3093c630,_kernel=0x7fce309f4630,
+ _kernels=0x102007030,_kerfftr=0x10206d030,_kerffti=0x102300030,_kernelconv=0,
+ _cyclecounter=1,_dispimage=0x7fce30932c30,_x=0x7fce31807c30,_y=0x7fce3185c830,
+ _centroidgain=1,_rayleigh=0x7fce308b5248,_bckgrdcalib=0x7fce310d5e30,
+ _bckgrdinit=0,_bckgrdsub=1,_meashist=0x0,_zeropoint=3.255e+11,_pha2dhc=0x0,
+ _wpha2dhc=0x0,_n12=[0,0],_LLT_use=0,_LLT_pscreen_name=0x0,_LLT_pscreen=0x0,
+ _LLT_pos=[0,0],_LLT_pupil=0x0,_LLT_phase=0x0,_LLT_kernel=0x0,_nkernels=1,
+ _dmnotinpath=0x7fce308bd908)]
+ [dm_struct(type="zernike",subsystem=1,virtual=0,dmfit_which=0x0,iffile=
+ "sh12x12-if1.fits",pitch=7,alt=0,hyst=0,push4imat=20,thresholdresp=0.3,
+ unitpervolt=0.0005,maxvolt=0,gain=1,ctrlnum=0x0,ctrlden=0x0,_ctrlnum=
+ 0x7fce308bdef0,_ctrlden=0x7fce308bef28,misreg=[0,0],xflip=0,yflip=0,pupoffset=
+ [0,0],disjointpup=0,pegged=0x0,epegged=0x0,ncp=0,ncpfit_type=0x0,ncpfit_which=
+ 0,use_def_of=0,ifunrot=0,xscale=0,actlocfile=0x0,nelperring=0x0,angleoffset=
+ 0x0,rint=0x0,rout=0x0,supportRadius=0,supportOffset=0,nxact=0,pitchMargin=0,
+ coupling=0.2,ecmatfile="sh12x12-ecmat1.fits",noextrap=0,elt=0,irexp=0,irfact=0,
+ filtertilt=0,nzer=80,minzer=1,ndh=0,nkl=0,nxseg=0,fradius=0,regparam=0,regtype=
+ 0x0,regmatrix=0x0,_alpha=[0.01,0.2,4],_beta=[0.4,0.63,0.89],_w=[0.2,0.35,0.45],
+ _x0=0x7fce3070e150,_xlast=0x7fce30710620,_ylast=[0x7fce3180c430,0x7fce3180c430,
+ 0x7fce3180c430],_y0=0x7fce31802a30,_signus=0x7fce307118b0,_puppixoffset=[0,0],
+ _nact=80,_def=0x1062ba030,_x=0x0,_y=0x0,_i1=0x0,_j1=0x0,_ei1=0x0,_ej1=0x0,
+ _indval=0x0,_indext=0x0,_eiffile="sh12x12-if1-ext.fits",_edef=0x0,_ex=0x0,_ey=
+ 0x0,_enact=0,_n1=182,_n2=331,_pupil=0x0,_command=0x7fce304e1cc0,_flat_command=
+ 0x0,_extrapcmat=0x0,_eltdefsize=0,_regmatrix=0x0,_fMat=0x0)]
+ mat_struct(method="svd",condition=0x7fce308bde48,sparse_MR=10000,sparse_MN=
+ 200000,sparse_thresh=1e-08,sparse_pcgtol=1e-06,file="sh12x12-mat.fits",
+ fit_simple=0,fit_subsamp=1,fit_type="target",fit_which=1,fit_minval=0.01)
+ tel_struct(diam=6.5,cobs=0.1,tipvib_white_rms=0,tipvib_1overf_rms=0,
+ tipvib_peaks=0x0,tipvib_peaks_rms=0x0,tipvib_peaks_width=0x0,tiltvib_white_rms=
+ 0,tiltvib_1overf_rms=0,tiltvib_peaks=0x0,tiltvib_peaks_rms=0x0,
+ tiltvib_peaks_width=0x0)
+ target_struct(lambda=0x7fce308b3bb8,xposition=0x7fce308b3f38,yposition=
+ 0x7fce308beef0,xspeed=0x0,yspeed=0x0,dispzoom=0x7fce308b5088,ncpdm=0x0,
+ _ntarget=1,_nlambda=1)
+ gs_struct(zeropoint=3.255e+11,zenithangle=0,lgsreturnperwatt=0)
+ loop_struct(gain=0.9,leak=0,gainho=0x0,leakho=0x0,framedelay=2,niter=500,
+ ittime=0.001,startskip=10,skipevery=10000,skipby=10000,stats_every=4,
+ jumps2swapscreen=0,modalgainfile="simulModeGains.fits",method="closed-loop")

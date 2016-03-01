@@ -8,7 +8,7 @@ window,33,wait=1;
 
 // read out parfile
 aoread,"sh12x12.par";
-atm.dr0at05mic = 35; // be more gentle
+// atm.dr0at05mic = 35; // be more gentle
 
 // define vector on which we want to loop and final strehl array
 gsmagv = [6.0,9.0,14.0];
