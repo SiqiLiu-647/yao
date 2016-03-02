@@ -1,7 +1,7 @@
 // YAO parameter file
 //-------------------------------
 sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
-sim.pupildiam      = 132;
+sim.pupildiam      = 132; //This is the pupil diameter in pixel
 sim.debug          = 0;
 sim.verbose        = 1; //The amount of information you get during the aoinit. 0, means you get no feedback at all except for warnings and error messages; 1 will print out a lot of information.
 
@@ -42,15 +42,15 @@ dm = array(dms,ndm);
 n  =1;
 dm(n).type	       = "zernike";// Type zernike, because the number of the actuators 336 is larger than the number of the measurements 132*2(number of pixels times the two directions x and y).
 dm(n).nzer         = 80;// # of zernike modes.
-//dm(n).pitch	       = 7;//
+dm(n).pitch	       = 7;//
 
 //-------------------------------
 mat.condition      = &([15.]);
 mat.file	       = "";
 
 //-------------------------------
-tel.diam	   = 6.5; // Diameter of MMT.
-tel.cobs	   = 0.1; // 64cm/6.5m = 0.1
+tel.diam	       = 6.5; // Diameter of MMT.
+tel.cobs	       = 0.1; // 64cm/6.5m = 0.1
 
 //-------------------------------
 target.lambda	   = &([1.65]);// The wavelength of the science camera detector, unit micron.
@@ -67,7 +67,7 @@ loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integrat
 loop.niter	       = 500; //Total number of iterations.
 loop.ittime	       = 1e-3; //Iteration time (sampling time), unit second.
 //loop.startskip     = 10; //# of iteration to skip before collecting statistics.
-loop.skipevery     = 10000; //In phase screen, skip by "skipby" steps every skipevery iterations (0=none).
+//loop.skipevery     = 10000; //In phase screen, skip by "skipby" steps every skipevery iterations (0=none).
 //loop.skipby        = 10000;// Get better statistical coverage
 loop.modalgainfile = "simulModeGains.fits";
 

@@ -16,11 +16,11 @@ ittimev = [1e-3, 2e-3, 5e-3, 8e-3];
 strehlarray = array(0.,[2,numberof(gsmagv),numberof(ittimev)]);//a combination of the magnitude of the star and the loopgain.
 
 // loop on gsmag and iteration time, index start from one
+loop.niter = 1000;
 for (ii=1;ii<=numberof(gsmagv);ii++) {
     for(kk=1;kk<=numberof(ittimev);kk++){
     wfs(1).gsmag=gsmagv(ii);
     loop.ittime=ittimev(kk);
-    loop.niter = 500;
     aoinit,disp=1,clean=1;
     aoloop,disp=10; //disp=10 in the call means "do your displays every 10 iterations". 
     go, all=1;//go: do all loop.niter
@@ -31,7 +31,7 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
         //y axis is the strehl-ratio
       plg,strehlarray(ll,),ittimev,color=-ll-4; // plots a graph of Y versus X.
       limits, 0.0005, 0.01;
-      range, 0.0, 0.7; //yaxis range
+      range, 0.0, 0.45; //yaxis range
     }
     logxy,1,0;
     xytitles,"Loop Ittime",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
