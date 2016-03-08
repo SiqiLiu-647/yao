@@ -48,3 +48,62 @@ dr0at05mic = D/r0 = 6.5m/15cm =
  1. The overall goal is to reduce PSF and reduce pixels.(to reach higher strehl ratio)
  2. This week weekly plan will be shown in group wiki.
 
+
+#========================2016/03/03 Meeting with Suresh==============================
+1. phase screen points to the phase screen of the atmosphere.
+Like the command, create_phase_screens, 2048,256,prefix='screen'.
+create 2048/256 = 8 phase screens suitable for use by yao. 
+This will create N (N=long dimension/short dimension, 8 in that case) phase screens of dimension 2048x256 suitable for use by yao. It is advised to choose dimensions that are powers of 
+2. Depending on your platform and CPU, it may take some time (1mn or so), as this routine is absolutely not optimized. This is a one shot run. You will not need to do that everytime you run yao, as you can, and are encouraged, to use the same phase screens. You may need to run it once more to create larger phase screens if the need arises, but that's about it. The phase screens (screen1.fits to screen8.fits in the example above) will be created in the current working directory. Move them somewhere convenient (I have them in Y_USER/data=.yorick/data in my case). You will need to edit the yao parameter files to reflect the path and names of these phase screens if you put it somewhere different or used a different name (look for "atm.screen" in the parfile).
+
+What aoread() does is 
+(a) read, or rather include, the parameter file, which will fill the various structures containing the definitions of the WFS, DM, loop, etc... 
+(b) go through a simple check of the parameters to see if anything is missing or if there are incompatible assigments, in which case it will print out an error message (hopefully understandable). Otherwise, it prints out informational messages or warnings.
+Then we need to initialize the system. aoinit() will do that for us. It will initialize all the arrays (pupil, etc), initialize the system pupil, the various WFS, DM, etc. It will then compute the interaction matrix, invert it and finally plot (if requested) a graphical system configuration. The amount of information you get during the aoinit is set by sim.verbose. The default verbose in sh6x6.par is 0, which means you get no feedback at all except for warnings and error messages. Let's set sim.verbose to 1 and run aoinit():
+
+2. Question-during the initialization: 
+what is the influence functions and what is the Pre_computing kernels for SH WFS
+1) The pre-computing kernels for the SHWFS
+
+2) DM influcence functions: how it influence the nearby ones...
+
+3) Interaction Matrix
+
+4) Modal Gain
+
+5) Interation and command matrices
+what is SVD...
+
+3. aoloop
+shwfs_comp_lgs_defocuses: wfs(1).lgs_prof_alt undefined //how is this calculated
+Optimizing 2D FFT - size = 28 //what is this...
+Pre-computing Kernels for the SH WFS
+WFS#1 Field stop size = 2.400000  //right
+NGS#1 flux varies between 24213 and 28723 photon/subap/it   // how is this calculated...
+
+4. 
+Saving results in /Users/siqi/YAO/examples/sh12x12.res (ps,imav.fits)...
+time(1-2) =  3.86 ms  (WF sensing)// what does it mean...
+time(2-3) =  0.03 ms  (Reset and measurement history handling) // what is this...
+time(3-4) =  0.03 ms  (cMat multiplication)
+time(4-5) =  0.83 ms  (DM shape computation)
+time(5-6) =  2.02 ms  (Target PSFs estimation)
+time(6-7) =  1.49 ms  (Displays)
+time(7-8) =  0.06 ms  (Circular buffers, end-of-loop printouts)
+Finished on 10:35:32
+120.890946 iterations/second on average
+ Pixel size in images (e.g., imav): 13.499 mas
+
+         lambda   XPos   YPos  FWHM[mas]  Strehl  E50d[mas]
+Star# 1    1.65    0.0    0.0       60.5   0.305      314.2
+
+
+Strehl, FWHM and 50 percent encircled energy are available as extern variables under the name strehl, fwhm and e50 (the averaged PSFs are also available, together with the history of DM commands, DM errors and WFS measurements if the keyword savecb= has been set):
+
+# ====================Controlling features ==========================
+In yao, you have to define the AO system you want to simulate. 
+It starts by defining an entrance aperture (the system pupil). This is done through 2 parameters: the physical pupil size (e.g. diameter) in real world units, meters. And because yao is a monte-carlo code, that uses arrays to generate phases and PSFs, 
+we will need a pupil array and thus a pupil diameter in pixel.
+
+#===================2016/03/03  ======================
+The yao

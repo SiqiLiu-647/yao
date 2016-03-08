@@ -43,7 +43,7 @@ n  =1;
 dm(n).type	       = "zernike";// Type zernike, because the number of the actuators 336 is larger than the number of the measurements 132*2(number of pixels times the two directions x and y).
 dm(n).nzer         = 80;// # of zernike modes.
 dm(n).pitch	       = 7;//
-
+dm(n).thresholdresp = -0.1 ;//0 would filter all actuators and 1 would retain them all. 0.5 would retain all actuator which measurement max response is larger than the max response of all actuators. 
 //-------------------------------
 mat.condition      = &([15.]);
 mat.file	       = "";
@@ -53,22 +53,18 @@ tel.diam	       = 6.5; // Diameter of MMT.
 tel.cobs	       = 0.1; // 64cm/6.5m = 0.1
 
 //-------------------------------
-target.lambda	   = &([1.65]);// The wavelength of the science camera detector, unit micron.
+target.lambda	   = &([2.2]);// The wavelength of the science camera detector, unit micron. 1.65 microns or 2.2 microns.
 target.xposition   = &([0.]);
 target.yposition   = &([0]);
 target.dispzoom    = &([1.]);
 
 //-------------------------------
-gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated in R band.
-
+gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated in R band(0.65 micron). (3.255e11); if we only change the wave-length of the wfs, this does not change...
 //-------------------------------
 loop.gain	       = 0.5;
 loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2. Because there is 1.6ms Frame Rate, 1.596 ms read time; so the framedelay is calculated as 1+readoutdelay/itime-> 1+1.596/1.6=2
-loop.niter	       = 500; //Total number of iterations.
+loop.niter	       = 1000; //Total number of iterations.
 loop.ittime	       = 1e-3; //Iteration time (sampling time), unit second.
-//loop.startskip     = 10; //# of iteration to skip before collecting statistics.
-//loop.skipevery     = 10000; //In phase screen, skip by "skipby" steps every skipevery iterations (0=none).
-//loop.skipby        = 10000;// Get better statistical coverage
 loop.modalgainfile = "simulModeGains.fits";
 
 //-------------------------------

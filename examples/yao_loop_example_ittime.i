@@ -31,7 +31,7 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
         //y axis is the strehl-ratio
       plg,strehlarray(ll,),ittimev,color=-ll-4; // plots a graph of Y versus X.
       limits, 0.0005, 0.01;
-      range, 0.0, 0.45; //yaxis range
+      range, 0.0, 0.6; //yaxis range
     }
     logxy,1,0;
     xytitles,"Loop Ittime",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));

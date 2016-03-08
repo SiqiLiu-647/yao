@@ -31,7 +31,7 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
     for (ll=1;ll<=ii;ll++) {
       plg,strehlarray(ll,),gainv,color=-ll-4;
       limits, 0.0, 1.0;
-      range, 0.0, 0.5;
+      range, 0.0, 0.6;
     }
     logxy,0,0;
     xytitles,"Loop Gain",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
