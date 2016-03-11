@@ -53,7 +53,7 @@ tel.diam	       = 6.5; // Diameter of MMT.
 tel.cobs	       = 0.1; // 64cm/6.5m = 0.1
 
 //-------------------------------
-target.lambda	   = &([2.2]);// The wavelength of the science camera detector, unit micron. 1.65 microns or 2.2 microns.
+target.lambda	   = &([2.2]);// The wavelength of the science camera detector, unit micron. 1.65 microns(H band) or 2.2 microns(K band). convert pointer to string.
 target.xposition   = &([0.]);
 target.yposition   = &([0]);
 target.dispzoom    = &([1.]);

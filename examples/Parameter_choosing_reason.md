@@ -107,3 +107,19 @@ we will need a pupil array and thus a pupil diameter in pixel.
 
 #===================2016/03/03  ======================
 The yao
+
+
+#====================2016/03/08 =======================
+Figure out how to make a plot in yao.
+* read the paper how to figure out the prism...
+* roof, double lenslet....
+# Finish all the test in mid-April...
+* write code of the flucatuation of the star...(r0 and D)
+* 2D FT...
+* Shaojie discussed jitter angle only has an dependence on the 
+
+=======================2016/03/11=========================
+* What is the principle of the pyramid wavefront sensor, or how we can measure the wavefront according to the two micro-pupils.
+* phase wavefront sensor, what is that.
+* the differences and advantages of using SHWFS and pyramid WFS.
+* shopping list.
