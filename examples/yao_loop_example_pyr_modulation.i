@@ -10,8 +10,8 @@ window,33,wait=1;
 aoread,"sh12x12_pyr.par";
 
 // define vector on which we want to loop and final strehl array
-modulation_ampv = [0.1,0.2,0.3,0.4,0.5];
-modulation_nptsv  = [24,28,32,36,40];
+modulation_ampv = [0.01,0.05,0.1,0.15];
+modulation_nptsv  = [4,8,12,16,20];
 strehlarray = array(0.,[2,numberof(modulation_ampv),numberof(modulation_nptsv)]);
 
 loop.niter=500;
@@ -29,8 +29,8 @@ for (ii=1;ii<=numberof(modulation_ampv);ii++) {
     fma;
     for (ll=1;ll<=ii;ll++) {
       plg,strehlarray(ll,),modulation_ampv,color=-ll-4;
-      limits, 0.0, 0.5;
-      range, 0.0, 0.7;
+      limits, 0.0, 0.25;
+      range, 0.0, 0.4;
       plt,swrite(format="npts=%d",modulation_nptsv(ll)),0.011,ymax-yspace*(ll-1), \
         justify="LT",tosys=1,color=-ll-4;
     }
