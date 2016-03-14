@@ -1,7 +1,7 @@
 // YAO parameter file
 //-------------------------------
 sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
-sim.pupildiam      = 80; //This is the pupil diameter in pixel, original version 80 pixels. but we want to compare with the SHWFS, which consists of 24 pixels.
+sim.pupildiam      = 24; //This is the pupil diameter in pixel, original version 80 pixels. but we want to compare with the SHWFS, which consists of 24 pixels.
 sim.debug          = 0;
 sim.verbose        = 1; //The amount of information you get during the aoinit. 0, means you get no feedback at all except for warnings and error messages; 1 will print out a lot of information.
 
@@ -28,13 +28,13 @@ wfs(n).noise       = 1; //whether the noise could be switched on or off
 wfs(n).ron         = 3.7;
 
 //---------------------- Not Clear yet....--------------
-wfs(n).shnxsub	   = 40;  //# of subapertures in telescope diameter, in 1D direction, but this should be the result from the previous one... number of pixels in each sub-aperture.
+wfs(n).shnxsub	    = 12;  //# of subapertures in telescope diameter, in 1D direction, but this should be the result from the previous one... number of pixels in each sub-aperture.
 wfs(n).npixpersub   = 2;// Pupil plane. # of pixels per sub-aperture. wfs.npixpersub * wfs.shnxsub = 2*40 = 80   
-wfs(n).fssize       = 1.5;//calculated from lambda/(diameter/sim.pupil)=650nm/(6.5m/80) = 1.65
+wfs(n).fssize       = 0.495;//calculated from lambda/(diameter/sim.pupil)=650nm/(6.5m/80) = 1.65
 wfs(n).fstop        = "round"; // The field stop size and shape are mentioned in paper McGuire 1999, abstract. 
-wfs(n).pyr_mod_ampl = 0.4;// 5*lambda/D = 5*650*10^(-9)/6.5=1.031 arcsec. float .... what is the modulation amplitude.... - - 
+wfs(n).pyr_mod_ampl = 0.1;// 5*lambda/D = 5*650*10^(-9)/6.5=1.031 arcsec. float .... what is the modulation amplitude.... - - 
 //10*lambda/D
-wfs(n).pyr_mod_npts = 20;// 5*lambda/D*2*pi/(2 lambda/D), number of points in a circle.; square, we will result in 5*sqrt(2)/2=3.5 and we take 3. type: long........... 4 has the best strehl ratio.
+wfs(n).pyr_mod_npts = 4;// 5*lambda/D*2*pi/(2 lambda/D), number of points in a circle.; square, we will result in 5*sqrt(2)/2=3.5 and we take 3. type: long........... 4 has the best strehl ratio.
 wfs(n).pyr_mod_loc  = "after";// the modulation is placed after the field stop.
 
 //-------------------------------
