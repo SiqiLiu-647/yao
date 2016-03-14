@@ -33,7 +33,7 @@ for (ii=1;ii<=numberof(modulation_nptsv);ii++) {
       limits, 0.0, 0.6;
       range, 0.3, 0.7;
       print,ll;
-      pltitle, "Strehl Ratio in Pyramid WFS"
+      pltitle, "Strehl Ratio in Pyramid WFS for setup."
       //plt,swrite(format="npts=%d",modulation_nptsv(jj)),0.011,ymax-yspace*(ll-1), \
         //justify="LT",tosys=1,color=-ll-4; //there is something wrong with this sentence...
     }
