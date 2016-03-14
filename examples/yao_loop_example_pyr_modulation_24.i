@@ -10,8 +10,8 @@ window,33,wait=1;
 aoread,"sh12x12_pyr_24.par";
 
 // define vector on which we want to loop and final strehl array
-modulation_ampv = [0.1,0.2,0.3,0.4,0.5,0.6];
-modulation_nptsv  = [24,28,32,36,40];
+modulation_ampv = [0.1,0.2,0.3,0.4,0.5,0.6,0.7];
+modulation_nptsv  = [4,24,28,32,36,40,56];
 strehlarray = array(0.,[2,numberof(modulation_nptsv),numberof(modulation_ampv)]);
 
 loop.niter=500;
@@ -32,7 +32,7 @@ for (ii=1;ii<=numberof(modulation_nptsv);ii++) {
       plg,strehlarray(ll,),modulation_ampv,color=-ll-4,legend="Modulation amplitude";//plots 1d array
       //plt,strehlarray(ll,),modulation_ampv,color=-ll-4,symbol=4,size=0.6;//plot text at (x,y)
       limits, 0.0, 0.65;//x limits
-      range, 0.0, 0.7;//y limits
+      range, 0.0, 0.6;//y limits
       print,ll;
       pltitle, "Strehl Ratio in Pyramid WFS for 24 pixels setup"
       //plt,swrite(format="npts=%2ld",wfs(1).pyr_mod_npts),0.011,ymax-yspace*(ll-1)//,justify="LT",tosys=1,color=-ll-4; //there is something wrong with this sentence... The format is plt, text, x,y

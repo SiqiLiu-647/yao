@@ -32,9 +32,9 @@ wfs(n).shnxsub	    = 12;  //# of subapertures in telescope diameter, in 1D direc
 wfs(n).npixpersub   = 11;   // Pupil plane. # of pixels per sub-aperture. wfs.npixpersub * wfs.shnxsub = 2*12 = 24   
 wfs(n).fssize       = 2.4; //calculated from lambda/(diameter/sim.pupil)=650nm/(6.5m/80) = 1.65
 wfs(n).fstop        = "round"; //The field stop size and shape are mentioned in paper McGuire 1999, abstract. 
-wfs(n).pyr_mod_ampl = 0.5;  // 5*lambda/D = 5*650*10^(-9)/6.5=1.031 arcsec. float ....  
+wfs(n).pyr_mod_ampl = 0.2;  // 5*lambda/D = 5*650*10^(-9)/6.5=1.031 arcsec. float ....  
 //10*lambda/D
-wfs(n).pyr_mod_npts = 40;// 5*lambda/D*2*pi/(2 lambda/D), number of points in a circle.; square, we will result in 5*sqrt(2)/2=3.5 and we take 3. type: long........... 4 has the best strehl ratio.
+wfs(n).pyr_mod_npts = 28;// 5*lambda/D*2*pi/(2 lambda/D), number of points in a circle.; square, we will result in 5*sqrt(2)/2=3.5 and we take 3. type: long........... 4 has the best strehl ratio.
 wfs(n).pyr_mod_loc  = "after";// the modulation is placed after the field stop.
 
 //-------------------------------
