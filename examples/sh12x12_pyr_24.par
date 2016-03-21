@@ -22,7 +22,7 @@ wfs(n).type	       = "pyramid";
 wfs(n).lambda	   = 0.65;// All the information related to the wfs should be in band centred in 650 nm. R band.
 wfs(n).gspos       = [0.,0.];
 wfs(n).gsalt       = 0.;
-wfs(n).gsmag       = 5.;
+wfs(n).gsmag       = 6.;
 wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky with full moon, the equivalent number of photons received by one arcsec^2.
 wfs(n).noise       = 1; //whether the noise could be switched on or off
 wfs(n).ron         = 3.7;
@@ -53,16 +53,16 @@ mat.file	       = "";
 tel.diam	       = 6.5; // Diameter of MMT.
 tel.cobs	       = 0.1; // 64cm/6.5m = 0.1
 //-------------------------------
-target.lambda	   = &([1.65]);// The wavelength of the science camera detector, unit micron.
+target.lambda	   = &([2.2]);// The wavelength of the science camera detector, unit micron.
 target.xposition   = &([0.]);
 target.yposition   = &([0]);
 target.dispzoom    = &([1.]);
 //-------------------------------
 gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated in R band.
 //-------------------------------
-loop.gain	       = 0.5;
+loop.gain	       = 0.59;
 loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2. Because there is 1.6ms Frame Rate, 1.596 ms read time; so the framedelay is calculated as 1+readoutdelay/itime-> 1+1.596/1.6=2
-loop.niter	       = 1000; //Total number of iterations.
+loop.niter	       = 2000; //Total number of iterations.
 loop.ittime	       = 1e-3; //Iteration time (sampling time), unit second.
 loop.modalgainfile = "simulModeGains.fits";
 //-------------------------------

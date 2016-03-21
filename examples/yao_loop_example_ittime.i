@@ -35,6 +35,7 @@ for (ii=1;ii<=numberof(gsmagv);ii++) {
     }
     logxy,1,0;
     xytitles,"Loop Ittime",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
+    pltitle, "Strehl Ratio in SHWFS testting best iteration time";
     window,0;
    }
   //}
