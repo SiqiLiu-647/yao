@@ -10,7 +10,7 @@ window,33,wait=1;
 aoread,"sh12x12.par";
 
 // define vector on which we want to loop and final strehl array
-gsmagv          = [6.0,9.0,14.0];
+gsmagv          = [1.0,6.0,9.0,14.0,15.0];
 targetlambdav   = &([1.65]);// here is some problem dealing with this array.
 strehlarray     = array(float,[2,numberof(gsmagv),numberof(targetlambdav)]);
 
@@ -27,7 +27,7 @@ for (jj=1; jj <= numberof(gsmagv); jj++) {
   fma;
   for (ll=1;ll<=jj;ll++) {
     plg,strehlarray(jj),gsmagv,color=-ll-4;
-    limits, 5.0, 15.0;//x-axis
+    limits, 0.5, 15.0;//x-axis
     range, 0.0, 0.7;//y-axis
   }
   logxy,0,0;
@@ -51,7 +51,7 @@ for (jj=1; jj <= numberof(gsmagv); jj++) {
   fma;
   for (ll=1;ll<=ii;ll++) {
     plg,strehlarray(ll,),gsmagv,color=-ll-4;
-    limits, 5.0, 15.0;//x-axis
+    limits, 0.5, 15.0;//x-axis
     range, 0.0, 0.7;//y-axis
   }
   logxy,0,0;

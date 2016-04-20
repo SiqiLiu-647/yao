@@ -1,6 +1,6 @@
 // YAO parameter file
 //-------------------------------
-sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+sim.name           = "Pyramid w/ TT mirror and WFS, full diffraction WFS";
 sim.pupildiam      = 80; //This is the pupil diameter in pixel, original version 80 pixels. but we want to compare with the SHWFS, which consists of 24 pixels.
 sim.debug          = 0;
 sim.verbose        = 1; //The amount of information you get during the aoinit. 0, means you get no feedback at all except for warnings and error messages; 1 will print out a lot of information.
@@ -60,7 +60,7 @@ target.dispzoom    = &([1.]);
 //-------------------------------
 gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated in R band.
 //-------------------------------
-loop.gain	       = 0.5;
+loop.gain	       = 0.6;
 loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2. Because there is 1.6ms Frame Rate, 1.596 ms read time; so the framedelay is calculated as 1+readoutdelay/itime-> 1+1.596/1.6=2
 loop.niter	       = 1000; //Total number of iterations.
 loop.ittime	       = 1e-3; //Iteration time (sampling time), unit second.

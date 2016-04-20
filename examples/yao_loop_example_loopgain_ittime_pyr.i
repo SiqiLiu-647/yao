@@ -9,10 +9,10 @@ window,33,wait=1;
 
 // read out parfile
 aoread,"sh12x12_pyr_24.par";
-target.lambda    = &([2.2]);
+target.lambda    = &([1.65]);
 
 // define vector on which we want to loop and final strehl array
-gsmagv = [6.0];
+gsmagv = [5.0];
 wfs(1).gsmag=gsmagv(1);
 
 //gainv  = [0.45,0.5,0.55,0.58,0.59,0.6,0.61,0.62,0.65];//for 1.65 micron
@@ -39,11 +39,11 @@ for (ii=1;ii<=numberof(ittimev);ii++) {
       plg,strehlarray(ll,),gainv,color=-ll-4;
       limits, 0.1, 0.92;
       //range, 0.50, 0.70; for 2.2 microns
-      range, 0.5, 0.75; //for 1.65 microns.
+      range, 0.1, 0.75; //for 1.65 microns.
     }
     logxy,0,0;
     xytitles,"Loop Gain",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
-    pltitle, "Strehl Ratio in PYWFS for mag 6 star";
+    pltitle, "Strehl Ratio in PYWFS for mag 5 star";
     window,0;
   }
  }
