@@ -22,7 +22,7 @@ wfs(n).type	       = "hartmann";
 wfs(n).lambda	   = 0.65;// All the information related to the wfs should be in band centred in 650 nm. R band.
 wfs(n).gspos       = [0.,0.];
 wfs(n).gsalt       = 0.;
-wfs(n).gsmag       = 5.;
+wfs(n).gsmag       = 14.;
 wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky with full moon, the equivalent number of photons received by one arcsec^2.
 wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
 wfs(n).shnxsub	   = 12;  //# of subapertures in telescope diameter, in 1D direction.
@@ -33,7 +33,7 @@ wfs(n).noise       = 1; //whether the noise could be switched on or off
 wfs(n).ron         = 3.7;// Read out noise by MMT, in paper McGuire 1999 P275 Section 3.1 paragraph 3.
 wfs(n).fracIllum   = 0.75; // 108/144=0.75, in paper McGuire 1999 Table 1.
 wfs(n).fssize      = 2.4; // Field stop size per sub-aperture, 1.2 arcsec/pixel * 2 pixel = 2.4 arcsec.
-wfs(n).fstop       = "square"; // The field stop size and shape are mentioned in paper McGuire 1999, abstract.
+wfs(n).fstop       = "round"; // The field stop size and shape are mentioned in paper McGuire 1999, abstract.
 
 //-------------------------------
 ndm                = 1;
@@ -53,7 +53,7 @@ tel.diam	       = 6.5; // Diameter of MMT.
 tel.cobs	       = 0.1; // 64cm/6.5m = 0.1
 
 //-------------------------------
-target.lambda	   = &([1.65]);// The wavelength of the science camera detector, unit micron. 1.65 microns(H band) or 2.2 microns(K band). convert pointer to string.
+target.lambda	   = &([2.2]);// The wavelength of the science camera detector, unit micron. 1.65 microns(H band) or 2.2 microns(K band). convert pointer to string.
 target.xposition   = &([0.]);
 target.yposition   = &([0]);
 target.dispzoom    = &([1.]);

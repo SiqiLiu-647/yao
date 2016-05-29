@@ -1,3 +1,4 @@
+//Strehl ratio versus the magnitude
 require,"yao.i";
 write,"CREATING PHASE SCREENS";
 if (!open(Y_USER+"data/screen1.fits","r",1)) {

@@ -4,14 +4,14 @@ if (!open(Y_USER+"data/screen1.fits","r",1)) {
   create_phase_screens,1024,256,prefix=YUSER+"data/screen";
  }
 
-window,33,wait=1;
+window,1,wait=1;
 
 // read out parfile
 aoread,"sh12x12.par";
 
 // define vector on which we want to loop and final strehl array
 gsmagv          = [1.0,6.0,9.0,14.0,15.0];
-targetlambdav   = &([2.2]);// here is some problem dealing with this array.
+targetlambdav   = &([1.65]);// here is some problem dealing with this array.
 strehlarray     = array(float,[2,numberof(targetlambdav),numberof(gsmagv)]);
 
 target.lambda = targetlambdav(1);
@@ -23,15 +23,11 @@ for (jj=1; jj <= numberof(gsmagv); jj++) {
   aoloop,disp=10;
   go, all=1;
   strehlarray(1,jj) = strehllp(0); // fill in result array
-  window,33;
-  fma;
-  for (ll=1;ll<=1;ll++) {
-    plg,strehlarray(ll,),gsmagv;
-    limits, 0.5, 15.0;//x-axis
-    range, 0.0, 0.7;//y-axis
-  }
-  logxy,0,0;
-  xytitles,"Magnitude","Strehl Ratio";//swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
-  window,0;
  }
-
+window,1;
+fma;
+plg,strehlarray(ll,),gsmagv;
+limits, 0.5, 15.0;//x-axis
+range, 0.0, 0.7;//y-axis
+xytitles,"Magnitude","Strehl Ratio";//swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
+window,0;
