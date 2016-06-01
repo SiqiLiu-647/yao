@@ -38,8 +38,8 @@ for (ll=1;ll<=numberof(ittimev);ll++) {
   plg,strehlarray(ll,),gainv,color=-ll-4;
   plmk,strehlarray(ll,),gainv,color=-ll-4,marker=1;
 }
-limits, 0.1, 0.92;
-range, 0.50, 0.75; //for 2.2 microns
+limits, 0.25, 0.72;
+range, 0.50, 0.80; //for 2.2 microns
 //range, 0.1, 0.75; //for 1.65 microns.
 //logxy,0,0;
 xytitles,"Loop Gain",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));

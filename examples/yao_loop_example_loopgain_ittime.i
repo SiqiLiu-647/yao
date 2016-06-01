@@ -37,9 +37,9 @@ window,1;
 fma;
 for (ll=1;ll<=numberof(ittimev);ll++) {
   plg,strehlarray(ll,),gainv,color=-ll-4;
-  plmk,strehlarray(ll,),gainv,color=-ll-4,marker=1;
+  plmk,strehlarray(ll,),gainv,color=-ll-4,marker=ll;
 }
-limits, 0.12, 0.48;
+limits, 0.18, 0.48;
 range, 0.50, 0.70; //for 2.2 microns
 //range, 0.3, 0.55; //for 1.65 microns, SHWFS
 //logxy,0,0;

@@ -17,7 +17,7 @@ strehlarray = array(0.,[2,numberof(modulation_nptsv),numberof(modulation_ampv)])
 loop.gain=0.5;
 loop.ittime=1e-3;
 loop.niter=1000;
-wfs(1).gsmag=1.65;
+target.lambda    = &([1.65]);
 
 for (ii=1;ii<=numberof(modulation_nptsv);ii++) {
   for (jj=1;jj<=numberof(modulation_ampv);jj++) {
@@ -38,10 +38,10 @@ for (ll=1;ll<=numberof(modulation_nptsv);ll++) {
   plg,strehlarray(ll,),modulation_ampv,color=-ll-4,legend="Modulation amplitude";//plots 1d array
   plmk,strehlarray(ll,),modulation_ampv,color=-ll-4,marker=1;
   limits, 0.0, 0.55;//x limits
-  //range, 0.0, 0.5;//y limits for 1.65 microns
-  range, 0.1,0.8;//y limits for 2.2 microns
+  range, 0.0, 0.3;//y limits for 1.65 microns
+  //range, 0.1,0.8;//y limits for 2.2 microns
 } 
 logxy,0,0;
 xytitles,"Modulation Amplitude",swrite(format="Strehl @ %.2fmicrons",(*target.lambda)(0));
-pltitle, "Strehl Ratio in Pyramid WFS for 24 pixels setup"
+pltitle, "Pyramid WFS for 24 pixels setup"
 window,0;
