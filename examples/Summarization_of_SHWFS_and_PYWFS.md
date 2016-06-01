@@ -1,6 +1,7 @@
 Using "YAO", a Monte-Carlo AO simulation tool, we develope a series of simulation tests.  The aim of the tests is to obtain the best-performed parameters of the Shack-Hartmann wavefront sensor and the Pyramid wavefront sensor and compare their performances, based on MMT adaptive optics system.  These two wavefront sensors are detecting the same field of view in R band(0.65 micron), with the camera working in H(1.65 micron) and K(2.2micron) bands.
 
 For testing the best-performed control system parameters, we made two sets of plots showing the relation of the Strehl ratio (peak value of the intensity from observation/theoretical peak of the intensity) and the loop gain, given different iteration times.  From the plot, we can see that for SHWFS, the best-performed results are obtained when the loop_gain=0.3, iteration_time= 1 ms(given the limit of the control system); while for the pyramid wavefront sensor, the best-performed results are obtained when the loop_gain=0.5, iteration_time= 1 ms. 
+
 <img src="SHWFS_gain_ittime_1650.png" width="200" height='200'>
 <img src="SHWFS_gain_ittime_2200.png" width="200" height='200'>
 <img src="PYWFS_gain_ittime_1650.png" width="200" height='200'>
