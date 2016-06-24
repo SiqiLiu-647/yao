@@ -32,9 +32,9 @@ wfs(n).shnxsub	    = 12;  //# of subapertures in telescope diameter, in 1D direc
 wfs(n).npixpersub   = 11;   // Pupil plane. # of pixels per sub-aperture. wfs.npixpersub * wfs.shnxsub = 2*12 = 24   
 wfs(n).fssize       = 2.4; //calculated from lambda/(diameter/sim.pupil)=650nm/(6.5m/80) = 1.65
 wfs(n).fstop        = "round"; //The field stop size and shape are mentioned in paper McGuire 1999, abstract. 
-wfs(n).pyr_mod_ampl = 0.2;  // 5*lambda/D = 5*650*10^(-9)/6.5=1.031 arcsec. float ....  
+wfs(n).pyr_mod_ampl = 0.1;  // 5*lambda/D = 5*650*10^(-9)/6.5=1.031 arcsec. float ....  
 //10*lambda/D
-wfs(n).pyr_mod_npts = 24;// 5*lambda/D*2*pi/(2 lambda/D), number of points in a circle.; square, we will result in 5*sqrt(2)/2=3.5 and we take 3. type: long........... 4 has the best strehl ratio.
+wfs(n).pyr_mod_npts = 36;// 5*lambda/D*2*pi/(2 lambda/D), number of points in a circle.; square, we will result in 5*sqrt(2)/2=3.5 and we take 3. type: long........... 4 has the best strehl ratio.
 wfs(n).pyr_mod_loc  = "after";// the modulation is placed after the field stop.
 
 //-------------------------------
@@ -60,9 +60,9 @@ target.dispzoom    = &([1.]);
 //-------------------------------
 gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated in R band.
 //-------------------------------
-loop.gain	       = 0.5;
+loop.gain	       = 0.6;
 loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2. Because there is 1.6ms Frame Rate, 1.596 ms read time; so the framedelay is calculated as 1+readoutdelay/itime-> 1+1.596/1.6=2
-loop.niter	       = 2000; //Total number of iterations.
+loop.niter	       = 1000; //Total number of iterations.
 loop.ittime	       = 1e-3; //Iteration time (sampling time), unit second.
 loop.modalgainfile = "simulModeGains.fits";
 //-------------------------------

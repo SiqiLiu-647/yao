@@ -1,0 +1,70 @@
+// YAO parameter file
+//-------------------------------
+sim.name           = "SH 12x12 w/ TT mirror and WFS, full diffraction WFS";
+sim.pupildiam      = 176; //This is the pupil diameter in pixel
+sim.debug          = 0;
+sim.verbose        = 1; //The amount of information you get during the aoinit. 0, means you get no feedback at all except for warnings and error messages; 1 will print out a lot of information.
+
+//-------------------------------
+atm.dr0at05mic     = 15.57;  // This is r0=0.37m, D/r0=6.5m/0.37m=17.57. The diameter of the atmosphere over the critial length of the atmosphere turbulence.
+atm.screen	       = &("~/.yorick/data/screen"+["1","2","3","4"]+".fits");// Default values from the atmosphere.
+atm.layerfrac      = &([0.4,0.2,0.3,0.1]);
+atm.layerspeed     = &([11.,20,29,35]);// To be considered here
+atm.layeralt	   = &([0.,400,6000,9000]);
+atm.winddir        = &([0,0,0,0]);
+
+//-------------------------------
+nwfs               = 1; // number of WFSs (=1, single object adaptive optics; >1 if e.g. mcao multi-conjugate adaptive optics)
+wfs = array(wfss,nwfs);
+
+n   = 1;
+wfs(n).type	       = "hartmann";
+wfs(n).lambda	   = 0.65;// All the information related to the wfs should be in band centred in 650 nm. R band.
+wfs(n).gspos       = [0.,0.];
+wfs(n).gsalt       = 0.;
+wfs(n).gsmag       = 14.;
+wfs(n).skymag      = 17.9;// see https://www.gemini.edu/sciops/telescopes-and-sites/observing-condition-constraints/optical-sky-background for reference. Bright sky with full moon, the equivalent number of photons received by one arcsec^2.
+wfs(n).shmethod	   = 2;   //1= Geometric, simple gradient average over subaperture. 2=Diffractive, full propagation
+wfs(n).shnxsub	   = 16;  //# of subapertures in telescope diameter, in 1D direction.
+wfs(n).pixsize     = 1.2; //Focal plane: Subaperture CCD pixel size in arcsec 72um/60um = 1.2, for plate scale is 60 um/arcsec.
+wfs(n).npixels     = 2;   //Focal plane: Final # of pixels per subaperture. After pixel-binning, the sub-aperture consists of 2x2 pixels.
+wfs(n).npixpersub  = 11;//# of pixels per sub-aperture. wfs.npixpersub * wfs.shnxsub = 11*12 = 132
+wfs(n).noise       = 1; //whether the noise could be switched on or off
+wfs(n).ron         = 3.7;// Read out noise by MMT, in paper McGuire 1999 P275 Section 3.1 paragraph 3.
+wfs(n).fracIllum   = 0.75; // 108/144=0.75, in paper McGuire 1999 Table 1.
+wfs(n).fssize      = 2.4; // Field stop size per sub-aperture, 1.2 arcsec/pixel * 2 pixel = 2.4 arcsec.
+wfs(n).fstop       = "round"; // The field stop size and shape are mentioned in paper McGuire 1999, abstract.
+
+//-------------------------------
+ndm                = 1;
+dm = array(dms,ndm);
+
+n  =1;
+dm(n).type	       = "zernike";// Type zernike, because the number of the actuators 336 is larger than the number of the measurements 132*2(number of pixels times the two directions x and y).
+dm(n).nzer         = 80;// # of zernike modes.
+dm(n).pitch	       = 7;//
+dm(n).thresholdresp = -0.1 ;//0 would filter all actuators and 1 would retain them all. 0.5 would retain all actuator which measurement max response is larger than the max response of all actuators. 
+//-------------------------------
+mat.condition      = &([15.]);
+mat.file	       = "";
+
+//-------------------------------
+tel.diam	       = 6.5; // Diameter of MMT.
+tel.cobs	       = 0.1; // 64cm/6.5m = 0.1
+
+//-------------------------------
+target.lambda	   = &([2.2]);// The wavelength of the science camera detector, unit micron. 1.65 microns(H band) or 2.2 microns(K band). convert pointer to string.
+target.xposition   = &([0.]);
+target.yposition   = &([0]);
+target.dispzoom    = &([1.]);
+
+//-------------------------------
+gs.zeropoint	   = 3.255e11;//calibrate Photometric zero point (#photons@pupil/s/full_aper, mag0 star). See evernote, this calculated in R band(0.65 micron). (3.255e11); if we only change the wave-length of the wfs, this does not change...
+//-------------------------------
+loop.gain	       = 0.3;
+loop.framedelay    = 2; //Loop delay (# of frames). Regular CCD 1 frame integration -> framedelay=1 + readout & Calculation -> framedelay=2. Because there is 1.6ms Frame Rate, 1.596 ms read time; so the framedelay is calculated as 1+readoutdelay/itime-> 1+1.596/1.6=2
+loop.niter	       = 2000; //Total number of iterations.
+loop.ittime	       = 1e-3; //Iteration time (sampling time), unit second.
+loop.modalgainfile = "simulModeGains.fits";
+
+//-------------------------------

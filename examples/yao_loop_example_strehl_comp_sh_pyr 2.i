@@ -1,0 +1,87 @@
+//Strehl ratio versus the magnitude
+require,"yao.i";
+write,"CREATING PHASE SCREENS";
+if (!open(Y_USER+"data/screen1.fits","r",1)) {
+  create_phase_screens,1024,256,prefix=YUSER+"data/screen";
+ }
+
+window,4,wait=1;
+
+// read out parfile
+aoread,"sh12x12_pyr_24.par";
+
+// Parallelize WFS/DM and PSF
+sim.svipc=0;
+
+// define vector on which we want to loop and final strehl array
+gsmagv = [1.0,6.0,8.0,10.0,12.0,13.0,14.0,15.0,16.0];
+// gainv = [0.1,0.3,0.6]
+gainv = [0.6];
+targetlambdav = &([1.6,2.2]);
+//print, numberof(targetlambdav);
+strehlarray = array(0.,[3,2,numberof(gainv),numberof(gsmagv)]);
+
+loop.niter = 1000;
+loop.ittime = 1e-3;
+wfs(1).pyr_mod_npts=16;
+wfs(1).pyr_mod_ampl=0.1;
+target.lambda = targetlambdav(1);
+
+for (ii=1;ii<=numberof(gainv);ii++) {
+  for (jj=1;jj<=numberof(gsmagv);jj++) {
+    wfs(1).gsmag=gsmagv(jj);
+    loop.gain=gainv(ii);
+    aoinit,disp=1,clean=1;
+    aoloop,disp=10;
+    go, all=1;
+    strehlarray(1,ii,jj) = strehllp(0); // fill in result array
+    print, strehllp(0);
+    print, strehllp(1);
+    print, numberof(strehllp);
+	}
+}
+
+// read out parfile
+aoread,"sh12x12.par";
+
+loop.niter = 1000;
+loop.ittime = 1e-3;
+target.lambda = targetlambdav(1);
+
+gainv = [0.3];
+
+for (ii=1;ii<=numberof(gainv);ii++) {
+  for (jj=1;jj<=numberof(gsmagv);jj++) {
+    wfs(1).gsmag=gsmagv(jj);
+    loop.gain=gainv(ii);
+    aoinit,disp=1,clean=1;
+    aoloop,disp=10;
+    go, all=1;
+    strehlarray(2,ii,jj) = strehllp(0); // fill in result array
+    print, strehllp(0);
+    print, strehllp(1);
+    print, numberof(strehllp);
+	
+	
+  }
+ }
+ 
+ 
+ window,4;
+ fma;
+ for (ll=1;ll<=numberof(gainv);ll++) {
+   plg,strehlarray(1,ll,),gsmagv,color=-ll-4;
+   plmk,strehlarray(1,ll,),gsmagv,color=-ll-4,marker=1;
+   plg,strehlarray(2,ll,),gsmagv,color=-ll-4;
+   plmk,strehlarray(2,ll,),gsmagv,color=-ll-4,marker=3;
+   print,gsmagv
+   print,strehlarray(1,ll,)
+   print,strehlarray(2,ll,)
+   limits, 0.5, 16.5;
+   range, 0.0, 0.8;
+ }
+ window,0;
+ 
+ logxy,0,0;
+ xytitles,"Guide Star Magnitude","Strehl Ratio";
+ pltitle, "Strehl Ratio SH/PYWFS in 1.6 microns with Star magnitude";
